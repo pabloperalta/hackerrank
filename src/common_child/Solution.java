@@ -10,19 +10,7 @@ public class Solution {
     static int commonChild(String s1, String s2) {
         max = 0;
         Stack<Character> stack = new Stack<>();
-
-        for (int i = 0; i < s1.length(); i++) {
-            //printS1Position(s1, i);
-            char node = s1.charAt(i);
-            int indexOf = s2.indexOf(node);
-
-            if (indexOf >= 0) {
-                stack.push(node);
-                findLongestPath(s1, i + 1, s2, indexOf + 1, stack);
-                stack.pop();
-            }
-        }
-
+        findLongestPath(s1, 0, s2, 0, stack);
         return max;
     }
 
