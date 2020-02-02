@@ -9,63 +9,62 @@ public class Solution {
     // Complete the commonChild function below.
     static int commonChild(String s1, String s2) {
         max = 0;
+        Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < s1.length(); i++) {
-            //printS1Position(s1, i);
+//            printS1Position(s1, i);
+            char node = s1.charAt(i);
+            int indexOf = s2.indexOf(node);
 
-            int indexOf = s2.indexOf(s1.charAt(i));
             if (indexOf >= 0) {
-                Stack<Character> characters = new Stack<>();
-                characters.push(s1.charAt(i));
-                caminoMasLargo(s1, i, s2, indexOf + 1, characters);
-            } else {
-                //System.out.println("No esta la letra en s2. Descarto el nodo raiz.");
+                stack.push(node);
+                findLongestPath(s1, i + 1, s2, indexOf + 1, stack);
+                stack.pop();
             }
         }
 
-        //System.out.println(max);
         return max;
     }
 
 
-    private static int caminoMasLargo(String s1, int i, String s2, int s2Offset, Stack<Character> stack) {
-        Integer[] indicesEnS2 = transicionesPosibles(s1, i, s2, s2Offset);
+    private static void findLongestPath(String s1, int s1Offset, String s2, int s2Offset, Stack<Character> stack) {
+        for (int i = s1Offset; i < s1.length(); i++) {
+            for (int j = s2Offset; j < s2.length(); j++) {
+                if (s2.charAt(j) == s1.charAt(i)) {
+//                    printCurrentPath(s2, stack, j);
 
-        //printS2Position(s2, s2Offset, indicesEnS2);
+                    char charAt = s2.charAt(j);
 
-        for (int indiceEnS2 : indicesEnS2) {
-            //printCurrentPath(s2, stack, indiceEnS2);
+                    stack.push(charAt);
 
-            int siguienteNodo = darUnPaso(s1, i, s2, indiceEnS2, stack);
+                    int nextCharRelativePosition = s1.substring(s1Offset).indexOf(charAt);
 
-            if (siguienteNodo >= 0) {
+                    if (nextCharRelativePosition >= 0) {
 
-                caminoMasLargo(s1, siguienteNodo, s2, indiceEnS2 + 1, stack);
+                        int nextCharAbsolutePosition = s1Offset + nextCharRelativePosition;
 
-                //printWordCompleted(stack);
+                        findLongestPath(s1, nextCharAbsolutePosition + 1, s2, j + 1, stack);
 
-                if (stack.size() > max) {
-                    max = stack.size();
+//                        printWordCompleted(stack);
+
+                        if (stack.size() > max) {
+                            max = stack.size();
+                        }
+                    }
+
+                    stack.pop();
                 }
             }
-
-            stack.pop();
         }
-
-        return 0;
     }
 
     private static void printWordCompleted(Stack<Character> stack) {
-        System.out.print("Word Completed: ");
-        printStack(stack);
-        System.out.println();
+        printStack("Word Completed: ", stack);
     }
 
     private static void printCurrentPath(String s2, Stack<Character> stack, int indiceEnS2) {
-        System.out.print("Word so far: ");
-        printStack(stack);
-        System.out.print("[" + s2.charAt(indiceEnS2) + "]");
-        System.out.println();
+        printStack("Word so far: ", stack);
+        System.out.println("[" + s2.charAt(indiceEnS2) + "]");
     }
 
 
@@ -92,43 +91,16 @@ public class Solution {
         System.out.println();
     }
 
-    private static void printStack(Stack<Character> stack) {
+    private static void printStack(String prefix, Stack<Character> stack) {
+        System.out.print(prefix);
         Character[] array = stack.toArray(new Character[stack.size()]);
 
         for (Character c : array) {
             System.out.print(c);
         }
+        System.out.println();
     }
 
-    private static Integer[] transicionesPosibles(String s1, int nodeIndex, String s2, int s2Offset) {
-        String substring = s1.substring(nodeIndex + 1);
-        String available = s2.substring(s2Offset);
-        ArrayList<Integer> posibleTransitionsIndexes = new ArrayList<>();
-
-        for (int i = 0; i < substring.length(); i++) {
-            char letter = substring.charAt(i);
-            for (int j = 0; j < available.length(); j++) {
-                if (available.charAt(j) == letter) {
-                    posibleTransitionsIndexes.add(j + s2Offset);
-                }
-            }
-        }
-
-        return posibleTransitionsIndexes.toArray(new Integer[posibleTransitionsIndexes.size()]);
-    }
-
-    private static int darUnPaso(String s1, int i, String s2, int indiceEnS2, Stack<Character> stack) {
-        char charAt = s2.charAt(indiceEnS2);
-
-        stack.push(charAt);
-
-        int indexOf = s1.substring(i + 1).indexOf(charAt);
-        if (indexOf >= 0) {
-            return indexOf + i + 1;
-        }
-
-        return indexOf;
-    }
 
     private static final Scanner scanner = new Scanner(getSource());
 
