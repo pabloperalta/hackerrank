@@ -12,7 +12,7 @@ public class Solution {
         Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < s1.length(); i++) {
-//            printS1Position(s1, i);
+            //printS1Position(s1, i);
             char node = s1.charAt(i);
             int indexOf = s2.indexOf(node);
 
@@ -31,21 +31,19 @@ public class Solution {
         for (int i = s1Offset; i < s1.length(); i++) {
             for (int j = s2Offset; j < s2.length(); j++) {
                 if (s2.charAt(j) == s1.charAt(i)) {
-//                    printCurrentPath(s2, stack, j);
+                    //printCurrentPath(s2, stack, j);
 
                     char charAt = s2.charAt(j);
 
                     stack.push(charAt);
 
-                    int nextCharRelativePosition = s1.substring(s1Offset).indexOf(charAt);
+                    int nextCharRelativePosition = nextNodeIndex(s1, s1Offset, charAt);
 
                     if (nextCharRelativePosition >= 0) {
 
-                        int nextCharAbsolutePosition = s1Offset + nextCharRelativePosition;
+                        findLongestPath(s1, nextCharRelativePosition + 1, s2, j + 1, stack);
 
-                        findLongestPath(s1, nextCharAbsolutePosition + 1, s2, j + 1, stack);
-
-//                        printWordCompleted(stack);
+                        //printWordCompleted(stack);
 
                         if (stack.size() > max) {
                             max = stack.size();
@@ -58,13 +56,21 @@ public class Solution {
         }
     }
 
+    private static int nextNodeIndex(String s1, int s1Offset, char charAt) {
+        for (int k = s1Offset; k < s1.length(); k++) {
+            if (s1.charAt(k) == charAt) {
+                return k;
+            }
+        }
+        return -1;
+    }
+
     private static void printWordCompleted(Stack<Character> stack) {
-        printStack("Word Completed: ", stack);
+        printStack("Word Completed: ", stack, "");
     }
 
     private static void printCurrentPath(String s2, Stack<Character> stack, int indiceEnS2) {
-        printStack("Word so far: ", stack);
-        System.out.println("[" + s2.charAt(indiceEnS2) + "]");
+        printStack("Word so far: ", stack, "[" + s2.charAt(indiceEnS2) + "]");
     }
 
 
@@ -91,14 +97,14 @@ public class Solution {
         System.out.println();
     }
 
-    private static void printStack(String prefix, Stack<Character> stack) {
+    private static void printStack(String prefix, Stack<Character> stack, String suffix) {
         System.out.print(prefix);
         Character[] array = stack.toArray(new Character[stack.size()]);
 
         for (Character c : array) {
             System.out.print(c);
         }
-        System.out.println();
+        System.out.println(suffix);
     }
 
 
