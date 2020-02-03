@@ -10,35 +10,26 @@ public class Solution {
 
     // Complete the commonChild function below.
     static int commonChild(String s1, String s2) {
-        max = 0;
-        counter = 0;
-        findLongestPath(s1, 0, s2, 0);
-        return max;
-    }
+        //https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
+        //https://en.wikipedia.org/wiki/Dynamic_programming
+        // Since there was a recursive aproach then dynamic programming could be use. Before solving a problem we check if we solved it before to sae time.
+        // If I arrive to a word i already formed through a different path then I must have already calculated the max length I can get
 
-    private static void findLongestPath(String s1, int s1Offset, String s2, int s2Offset) {
-        for (int i = s1Offset; i < s1.length(); i++) {
-            for (int j = s2Offset; j < s2.length(); j++) {
-                char s2Char = s2.charAt(j);
-                if (s2Char == s1.charAt(i)) {
-
-                    counter++;
-
-                    int nextCharRelativePosition = IntStream.range(s1Offset, s1.length()).filter(k -> s1.charAt(k) == s2Char).findFirst().orElse(-1);
-
-                    if (nextCharRelativePosition >= 0) {
-
-                        findLongestPath(s1, nextCharRelativePosition + 1, s2, j + 1);
-
-                        if (counter > max) {
-                            max = counter;
-                        }
-                    }
-
-                    counter--;
+        int[][] lcsMatrix = new int[s1.length() + 1][s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            lcsMatrix[i][0] = 0;
+            lcsMatrix[0][i] = 0;
+        }
+        for (int i = 0; i < s1.length(); i++) {
+            for (int j = 0; j < s2.length(); j++) {
+                if (s1.charAt(i) == s2.charAt(j)) {
+                    lcsMatrix[i + 1][j + 1] = lcsMatrix[i][j] + 1;
+                } else {
+                    lcsMatrix[i + 1][j + 1] = lcsMatrix[i + 1][j] > lcsMatrix[i][j + 1] ? lcsMatrix[i + 1][j] : lcsMatrix[i][j + 1];
                 }
             }
         }
+        return lcsMatrix[s1.length()][s1.length()];
     }
 
     private static final Scanner scanner = new Scanner(getSource());
