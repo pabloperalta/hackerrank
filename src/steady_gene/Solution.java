@@ -16,12 +16,8 @@ public class Solution {
 
         initCountMaps(posibleLetters, countOcurrences, countOcurrencesReversed);
 
-        System.out.println("Expected count: " + expectedCount);
-
-        int maxLeftLimit = getMaxLeftLimit(gene, expectedCount, countOcurrences);
-        int minRightLimit = getMinRightLimit(gene, geneLength, expectedCount, countOcurrencesReversed);
-
-        printCountMap(expectedCount, countOcurrences);
+        int maxI = maxI(gene, expectedCount, countOcurrences);
+        int minJ = minJ(gene, geneLength, expectedCount, countOcurrencesReversed);
 
         if (countOcurrences.values().stream().allMatch(x -> x == expectedCount)) {
             return 0;
@@ -29,13 +25,9 @@ public class Solution {
 
         int minFoundLength = Integer.MAX_VALUE;
 
-        System.out.println("[" + minRightLimit + "][" + maxLeftLimit + "]");
-        System.out.println("Minimo string a explorar: " + gene.substring(minRightLimit, maxLeftLimit));
-
-        for (int i = 0; i < maxLeftLimit; i++) {
+        for (int i = 0; i < maxI; i++) {
             initMatrixes(counters, posibleLetters);
-            int start = (i < minRightLimit ? minRightLimit : i);
-            for (int j = start; j < geneLength; j++) {
+            for (int j = i; j < geneLength; j++) {
 
                 int currentStringLength = (j + 1) - i;
 
@@ -43,16 +35,13 @@ public class Solution {
 
                     char charAtJ = gene.charAt(j);
 
-                    if (j == start) {
+                    if (j == i) {
                         counters.put(charAtJ, 1);
                     } else {
-                        Integer counter1 = counters.get(charAtJ);
-                        counter1 += 1;
-                        counters.put(charAtJ, counter1);
+                        counters.put(charAtJ, counters.get(charAtJ) + 1);
                     }
 
-                    if (isCandidateSubstring(counters, countOcurrences, posibleLetters, expectedCount)) {
-                        System.out.println("[" + i + "][" + j + "] Es la menor hasta ahora con " + currentStringLength + " letras: " + gene.substring(i, j + 1));
+                    if (j >= minJ && isCandidateSubstring(counters, countOcurrences, posibleLetters, expectedCount)) {
                         minFoundLength = currentStringLength;
                     }
                 }
@@ -64,7 +53,12 @@ public class Solution {
 
     private static boolean isCandidateSubstring(Map<Character, Integer> countOcurrencesSoFar, HashMap<Character, Integer> countTotalOcurrences, Set<Character> posibleLetters, int expectedCount) {
         for (Character genome : posibleLetters) {
-            if (countOcurrencesSoFar.get(genome) < countTotalOcurrences.get(genome) - expectedCount) {
+
+            Integer currentCount = countOcurrencesSoFar.get(genome);
+            int requiredCount = countTotalOcurrences.get(genome) - expectedCount;
+//            System.out.println("[" + genome + "][" + currentCount + "][" + requiredCount + "]");
+
+            if (currentCount < requiredCount) {
                 return false;
             }
         }
@@ -78,38 +72,30 @@ public class Solution {
         }
     }
 
-    private static void printCountMap(int expectedCount, HashMap<Character, Integer> countOcurrences) {
-        for (Character key : countOcurrences.keySet()) {
-            System.out.println("La letra [" + key + "] debe aparecer [" + (countOcurrences.get(key) - expectedCount) + "] veces");
-        }
-    }
-
-    private static int getMinRightLimit(String gene, int geneLength, int expectedCount, HashMap<Character, Integer> countOcurrencesReversed) {
-        int minRightLimit = geneLength;
+    private static int minJ(String gene, int geneLength, int expectedCount, HashMap<Character, Integer> countOcurrencesReversed) {
+        int minJ = geneLength;
         for (int decrementalIndex = geneLength - 1; decrementalIndex >= 0; decrementalIndex--) {
             char key = gene.charAt(decrementalIndex);
             countOcurrencesReversed.merge(key, 1, (a, b) -> a + b);
 
-            if (countOcurrencesReversed.get(key) > expectedCount && minRightLimit == geneLength) {
-                System.out.println("Min right limit found [" + (decrementalIndex + 1) + "]");
-                minRightLimit = decrementalIndex + 1;
+            if (countOcurrencesReversed.get(key) > expectedCount && minJ == geneLength) {
+                minJ = decrementalIndex;
             }
         }
-        return minRightLimit;
+        return minJ;
     }
 
-    private static int getMaxLeftLimit(String gene, int expectedCount, HashMap<Character, Integer> countOcurrences) {
-        int maxLeftLimit = -1;
+    private static int maxI(String gene, int expectedCount, HashMap<Character, Integer> countOcurrences) {
+        int maxI = -1;
         for (int incrementalIndex = 0; incrementalIndex < gene.length(); incrementalIndex++) {
             char key = gene.charAt(incrementalIndex);
             countOcurrences.merge(key, 1, (a, b) -> a + b);
 
-            if (countOcurrences.get(key) > expectedCount && maxLeftLimit == -1) {
-                System.out.println("Max left limit found [" + (incrementalIndex) + "]");
-                maxLeftLimit = incrementalIndex;
+            if (countOcurrences.get(key) > expectedCount && maxI == -1) {
+                maxI = incrementalIndex;
             }
         }
-        return maxLeftLimit;
+        return maxI;
     }
 
     private static void initMatrixes(Map<Character, Integer> counters, Set<Character> posibleLetters) {
