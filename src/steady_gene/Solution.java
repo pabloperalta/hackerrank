@@ -11,34 +11,15 @@ public class Solution {
         int expectedCount = geneLength / 4;
         Map<Character, Integer> counters = new HashMap<>();
         Map<Character, Integer> countOcurrences = new HashMap<>();
-        Map<Character, Integer> countOcurrencesReversed = new HashMap<>();
 
         countOcurrences.put('A', 0);
         countOcurrences.put('C', 0);
         countOcurrences.put('G', 0);
         countOcurrences.put('T', 0);
-        countOcurrencesReversed.put('A', 0);
-        countOcurrencesReversed.put('C', 0);
-        countOcurrencesReversed.put('G', 0);
-        countOcurrencesReversed.put('T', 0);
-
-        int maxI = -1;
-        int minJ = geneLength;
 
         for (int incrementalIndex = 0; incrementalIndex < gene.length(); incrementalIndex++) {
-            char key = gene.charAt(incrementalIndex);
-            countOcurrences.merge(key, 1, (a, b) -> a + b);
-
-            if (countOcurrences.get(key) > expectedCount && maxI == -1) {
-                maxI = incrementalIndex;
-            }
-            char antiKey = gene.charAt((geneLength - 1) - incrementalIndex);
-            countOcurrencesReversed.merge(antiKey, 1, (a, b) -> a + b);
-
-            if (countOcurrencesReversed.get(antiKey) > expectedCount && minJ == geneLength) {
-                minJ = (geneLength - 1) - incrementalIndex;
-            }
-        }
+            countOcurrences.merge(gene.charAt(incrementalIndex), 1, (a, b) -> a + b);
+         }
 
         if (countOcurrences.values().stream().allMatch(x -> x == expectedCount)) {
             return 0;
@@ -46,7 +27,7 @@ public class Solution {
 
         int minFoundLength = Integer.MAX_VALUE;
 
-        for (int i = 0; i < maxI; i++) {
+        for (int i = 0; i < geneLength; i++) {
             initMatrixes(counters);
             for (int j = i; j < geneLength; j++) {
 
@@ -62,7 +43,7 @@ public class Solution {
                         counters.put(charAtJ, counters.get(charAtJ) + 1);
                     }
 
-                    if (j >= minJ && isCandidateSubstring(counters, countOcurrences, expectedCount)) {
+                    if (isCandidateSubstring(counters, countOcurrences, expectedCount)) {
                         minFoundLength = currentStringLength;
                     }
                 }
