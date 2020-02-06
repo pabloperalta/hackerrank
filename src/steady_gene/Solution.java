@@ -10,14 +10,35 @@ public class Solution {
         int geneLength = gene.length();
         int expectedCount = geneLength / 4;
         Map<Character, Integer> counters = new HashMap<>();
-        Set<Character> posibleLetters = posibleLettersSet();
-        HashMap<Character, Integer> countOcurrences = new HashMap<>();
-        HashMap<Character, Integer> countOcurrencesReversed = new HashMap<>();
+        Map<Character, Integer> countOcurrences = new HashMap<>();
+        Map<Character, Integer> countOcurrencesReversed = new HashMap<>();
 
-        initCountMaps(posibleLetters, countOcurrences, countOcurrencesReversed);
+        countOcurrences.put('A', 0);
+        countOcurrences.put('C', 0);
+        countOcurrences.put('G', 0);
+        countOcurrences.put('T', 0);
+        countOcurrencesReversed.put('A', 0);
+        countOcurrencesReversed.put('C', 0);
+        countOcurrencesReversed.put('G', 0);
+        countOcurrencesReversed.put('T', 0);
 
-        int maxI = maxI(gene, expectedCount, countOcurrences);
-        int minJ = minJ(gene, geneLength, expectedCount, countOcurrencesReversed);
+        int maxI = -1;
+        int minJ = geneLength;
+
+        for (int incrementalIndex = 0; incrementalIndex < gene.length(); incrementalIndex++) {
+            char key = gene.charAt(incrementalIndex);
+            countOcurrences.merge(key, 1, (a, b) -> a + b);
+
+            if (countOcurrences.get(key) > expectedCount && maxI == -1) {
+                maxI = incrementalIndex;
+            }
+            char antiKey = gene.charAt((geneLength - 1) - incrementalIndex);
+            countOcurrencesReversed.merge(antiKey, 1, (a, b) -> a + b);
+
+            if (countOcurrencesReversed.get(antiKey) > expectedCount && minJ == geneLength) {
+                minJ = (geneLength - 1) - incrementalIndex;
+            }
+        }
 
         if (countOcurrences.values().stream().allMatch(x -> x == expectedCount)) {
             return 0;
@@ -26,7 +47,7 @@ public class Solution {
         int minFoundLength = Integer.MAX_VALUE;
 
         for (int i = 0; i < maxI; i++) {
-            initMatrixes(counters, posibleLetters);
+            initMatrixes(counters);
             for (int j = i; j < geneLength; j++) {
 
                 int currentStringLength = (j + 1) - i;
@@ -41,7 +62,7 @@ public class Solution {
                         counters.put(charAtJ, counters.get(charAtJ) + 1);
                     }
 
-                    if (j >= minJ && isCandidateSubstring(counters, countOcurrences, posibleLetters, expectedCount)) {
+                    if (j >= minJ && isCandidateSubstring(counters, countOcurrences, expectedCount)) {
                         minFoundLength = currentStringLength;
                     }
                 }
@@ -51,66 +72,22 @@ public class Solution {
         return minFoundLength;
     }
 
-    private static boolean isCandidateSubstring(Map<Character, Integer> countOcurrencesSoFar, HashMap<Character, Integer> countTotalOcurrences, Set<Character> posibleLetters, int expectedCount) {
-        for (Character genome : posibleLetters) {
-
-            Integer currentCount = countOcurrencesSoFar.get(genome);
-            int requiredCount = countTotalOcurrences.get(genome) - expectedCount;
-//            System.out.println("[" + genome + "][" + currentCount + "][" + requiredCount + "]");
-
-            if (currentCount < requiredCount) {
-                return false;
-            }
-        }
-        return true;
+    private static boolean isCandidateSubstring(Map<Character, Integer> countOcurrencesSoFar, Map<Character, Integer> countTotalOcurrences, int expectedCount) {
+        return countOcurrencesSoFar.get('A') >= getRequiredCount(countTotalOcurrences, expectedCount, 'A') &&
+                countOcurrencesSoFar.get('C') >= getRequiredCount(countTotalOcurrences, expectedCount, 'C') &&
+                countOcurrencesSoFar.get('G') >= getRequiredCount(countTotalOcurrences, expectedCount, 'G') &&
+                countOcurrencesSoFar.get('T') >= getRequiredCount(countTotalOcurrences, expectedCount, 'T');
     }
 
-    private static void initCountMaps(Set<Character> posibleLetters, HashMap<Character, Integer> countOcurrences, HashMap<Character, Integer> countOcurrencesReversed) {
-        for (Character genome : posibleLetters) {
-            countOcurrences.put(genome, 0);
-            countOcurrencesReversed.put(genome, 0);
-        }
+    private static int getRequiredCount(Map<Character, Integer> countTotalOcurrences, int expectedCount, Character genome) {
+        return countTotalOcurrences.get(genome) - expectedCount;
     }
 
-    private static int minJ(String gene, int geneLength, int expectedCount, HashMap<Character, Integer> countOcurrencesReversed) {
-        int minJ = geneLength;
-        for (int decrementalIndex = geneLength - 1; decrementalIndex >= 0; decrementalIndex--) {
-            char key = gene.charAt(decrementalIndex);
-            countOcurrencesReversed.merge(key, 1, (a, b) -> a + b);
-
-            if (countOcurrencesReversed.get(key) > expectedCount && minJ == geneLength) {
-                minJ = decrementalIndex;
-            }
-        }
-        return minJ;
-    }
-
-    private static int maxI(String gene, int expectedCount, HashMap<Character, Integer> countOcurrences) {
-        int maxI = -1;
-        for (int incrementalIndex = 0; incrementalIndex < gene.length(); incrementalIndex++) {
-            char key = gene.charAt(incrementalIndex);
-            countOcurrences.merge(key, 1, (a, b) -> a + b);
-
-            if (countOcurrences.get(key) > expectedCount && maxI == -1) {
-                maxI = incrementalIndex;
-            }
-        }
-        return maxI;
-    }
-
-    private static void initMatrixes(Map<Character, Integer> counters, Set<Character> posibleLetters) {
-        for (Character letter : posibleLetters) {
-            counters.put(letter, 0);
-        }
-    }
-
-    private static Set<Character> posibleLettersSet() {
-        HashSet<Character> characters = new HashSet<>();
-        characters.add('A');
-        characters.add('C');
-        characters.add('G');
-        characters.add('T');
-        return characters;
+    private static void initMatrixes(Map<Character, Integer> counters) {
+        counters.put('A', 0);
+        counters.put('C', 0);
+        counters.put('G', 0);
+        counters.put('T', 0);
     }
 
     private static final Scanner scanner = new Scanner(getSource());
