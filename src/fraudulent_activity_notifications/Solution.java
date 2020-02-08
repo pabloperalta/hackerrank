@@ -10,34 +10,29 @@ public class Solution {
     // Complete the activityNotifications function below.
     static int activityNotifications(int[] expenditure, int d) {
         int count = 0;
-        List<Integer> trail = new ArrayList<>();
+        Integer[] trail = new Integer[d];
 
 
         for (int i = 0; i < expenditure.length; i++) {
 
             if (i >= d) {
-                double result = 0;
+                double median;
 
-                int[] sortedTrail = sort(trail.toArray(new Integer[d]), d);
+                int[] sortedTrail = sort(trail, d);
 
                 if (d % 2 == 0) {
-                    result = getAverageMedian(d, sortedTrail);
+                    median = getAverageMedian(d, sortedTrail);
                 } else {
-                    result = sortedTrail[d / 2];
+                    median = sortedTrail[d / 2];
                 }
-
-                double median = result;
-
 
                 if (median * 2 <= expenditure[i]) {
                     count++;
                 }
 
-                Integer index = expenditure[i - d];
-                trail.remove(index);
             }
 
-            trail.add(expenditure[i]);
+            trail[i % d] = expenditure[i];
 
         }
 
