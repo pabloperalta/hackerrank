@@ -11,65 +11,76 @@ public class Solution {
     static int activityNotifications(int[] expenditure, int d) {
         int count = 0;
         Integer[] trail = new Integer[d];
+        for (int i = 0; i < d; ++i) {
+            trail[i] = 0;
+        }
+
+
+        // Create a count array to store count of inidividal characters and initialize count array as 0
+        int countsArray[] = new int[MAX_EXPENDITURE];
+        int additive[] = new int[MAX_EXPENDITURE];
+        for (int i1 = 0; i1 < MAX_EXPENDITURE; ++i1) {
+            countsArray[i1] = 0;
+            additive[i1] = 0;
+        }
 
 
         for (int i = 0; i < expenditure.length; i++) {
+            int currentExpenditure = expenditure[i];
 
             if (i >= d) {
-                double median;
+                // The output intacter array that will have sorted arr
+                int output[] = new int[d];
 
-                int[] sortedTrail = sort(trail, d);
+                additive[0] = countsArray[0];
 
-                if (d % 2 == 0) {
-                    median = getAverageMedian(d, sortedTrail);
-                } else {
-                    median = sortedTrail[d / 2];
+                // Change count[i] so that count[i] now contains actual position of this character in output array
+                for (int j = 1; j <= MAX_EXPENDITURE - 1; ++j) {
+                    additive[j] = countsArray[j] + additive[j - 1];
                 }
 
-                if (median * 2 <= expenditure[i]) {
+                // Build the output character array To make it stable we are operating in reverse order.
+                for (int j = d - 1; j >= 0; j--) {
+                    Integer trailElement = trail[j];
+                    output[additive[trailElement] - 1] = trailElement;
+                    --additive[trailElement];
+
+                    if ((d % 2 == 1 && output[(d / 2) + 1] > 0) || (d % 2 == 0 && output[d / 2] > 0 && output[(d / 2) + 1] > 0)) {
+                        break;
+                    }
+                }
+
+                if (calculateMedian(d, output) * 2 <= currentExpenditure) {
                     count++;
                 }
 
             }
 
-            trail[i % d] = expenditure[i];
+            Integer rotatingElement = trail[i % d];
 
+            if (rotatingElement >= 0) {
+                countsArray[rotatingElement] = countsArray[rotatingElement] - 1;
+            }
+
+            trail[i % d] = currentExpenditure;
+            ++countsArray[currentExpenditure];
         }
 
         return count;
     }
 
-    private static double getAverageMedian(int d, int[] sortedTrail) {
-        return (double) (sortedTrail[d / 2] + sortedTrail[(d / 2) + 1]) / 2d;
+    private static double calculateMedian(int d, int[] output) {
+        double median;
+        if (d % 2 == 0) {
+            median = getAverageMedian(d, output);
+        } else {
+            median = output[d / 2];
+        }
+        return median;
     }
 
-    static int[] sort(Integer arr[], int n) {
-
-        // The output intacter array that will have sorted arr
-        int output[] = new int[n];
-
-        // Create a count array to store count of inidividal characters and initialize count array as 0
-        int count[] = new int[MAX_EXPENDITURE];
-        for (int i = 0; i < MAX_EXPENDITURE; ++i)
-            count[i] = 0;
-
-        // store count of each character
-        for (int i = 0; i < n; ++i) {
-            ++count[arr[i]];
-        }
-
-        // Change count[i] so that count[i] now contains actual position of this character in output array
-        for (int i = 1; i <= MAX_EXPENDITURE - 1; ++i) {
-            count[i] += count[i - 1];
-        }
-
-        // Build the output character array To make it stable we are operating in reverse order.
-        for (int i = n - 1; i >= 0; i--) {
-            output[count[arr[i]] - 1] = arr[i];
-            --count[arr[i]];
-        }
-
-        return output;
+    private static double getAverageMedian(int d, int[] sortedTrail) {
+        return (double) (sortedTrail[d / 2] + sortedTrail[(d / 2) + 1]) / 2d;
     }
 
     private static final Scanner scanner = new Scanner(getSource());
