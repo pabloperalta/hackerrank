@@ -124,7 +124,7 @@ public class Solution2 {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\fraudulent_activity_notifications\\input05.txt");
+            return new FileInputStream(".\\src\\fraudulent_activity_notifications\\input05.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -132,7 +132,7 @@ public class Solution2 {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\fraudulent_activity_notifications\\output2.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\fraudulent_activity_notifications\\output2.txt"));
 
         String[] nd = scanner.nextLine().split(" ");
 

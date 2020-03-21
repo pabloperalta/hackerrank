@@ -54,8 +54,8 @@ class Result {
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\grading_students\\input00.txt")));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\grading_students\\output.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\grading_students\\input00.txt")));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\grading_students\\output.txt"));
 
         int gradesCount = Integer.parseInt(bufferedReader.readLine().trim());
 

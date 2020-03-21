@@ -112,7 +112,7 @@ public class Solution {
 
 //    public static void main(String[] args) throws IOException {
 //        try (BufferedReader bufferedReader = new BufferedReader(
-//                new InputStreamReader(new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\frequency_queries\\input07.txt")))) {
+//                new InputStreamReader(new FileInputStream(".\\src\\frequency_queries\\input07.txt")))) {
 //
 //            int q = Integer.parseInt(bufferedReader.readLine().trim());
 //            int[][] queries = new int[q][2];
@@ -126,7 +126,7 @@ public class Solution {
 //            List<Integer> ans = freqQuery(queries);
 //
 //            try (BufferedWriter bufferedWriter = new BufferedWriter(
-//                    new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\frequency_queries\\outpt.txt"))) {
+//                    new FileWriter(".\\src\\frequency_queries\\outpt.txt"))) {
 //
 //                bufferedWriter.write(ans.stream().map(Object::toString)
 //                        .collect(joining("\n")) + "\n");

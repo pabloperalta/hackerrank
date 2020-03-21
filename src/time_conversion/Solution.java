@@ -26,7 +26,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\time_conversion\\input00.txt");
+            return new FileInputStream(".\\src\\time_conversion\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -34,7 +34,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\time_conversion\\output.txt"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(".\\src\\time_conversion\\output.txt"));
 
         String s = scan.nextLine();
 

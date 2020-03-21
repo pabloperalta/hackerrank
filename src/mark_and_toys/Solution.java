@@ -40,7 +40,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\mark_and_toys\\input12.txt");
+            return new FileInputStream(".\\src\\mark_and_toys\\input12.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -48,7 +48,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\mark_and_toys\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\mark_and_toys\\output.txt"));
 
         String[] nk = scanner.nextLine().split(" ");
 

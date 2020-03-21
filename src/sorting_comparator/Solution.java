@@ -33,7 +33,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\sorting_comparator\\input00.txt");
+            return new FileInputStream(".\\src\\sorting_comparator\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;

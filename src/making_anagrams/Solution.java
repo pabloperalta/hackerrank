@@ -35,7 +35,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\making_anagrams\\input00.txt");
+            return new FileInputStream(".\\src\\making_anagrams\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -43,7 +43,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\making_anagrams\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\making_anagrams\\output.txt"));
 
         String a = scanner.nextLine();
 

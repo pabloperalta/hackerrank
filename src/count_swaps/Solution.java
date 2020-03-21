@@ -44,7 +44,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\count_swaps\\input00.txt");
+            return new FileInputStream(".\\src\\count_swaps\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;

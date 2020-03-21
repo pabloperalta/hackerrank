@@ -33,8 +33,8 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\countTriplets\\input06.txt")));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\code-quality-game\\hackerrank\\src\\countTriplets\\output.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\countTriplets\\input06.txt")));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\countTriplets\\output.txt"));
 
         String[] nr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
