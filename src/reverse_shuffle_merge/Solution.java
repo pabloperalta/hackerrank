@@ -9,7 +9,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input102.txt");
+            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input01.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -34,36 +34,33 @@ public class Solution {
     private static class ShuffleMerger {
 
         private Map<Character, Integer> maxOcurrences;
-        private Map<Character, Integer> charCount;
-        private List<Character> guaranteedResult;
-        private List<Character> trailingResult;
+        private Map<Character, Integer> charCount = new HashMap<>();
+        private List<Character> guaranteedResult = new ArrayList<>();
+        private List<Character> trailingResult = new ArrayList<>();
 
         // Complete the reverseShuffleMerge function below.
-        public String reverseShuffleMerge(String s) {
+        String reverseShuffleMerge(String s) {
 
-            maxOcurrences = getMaxOcurrences(s);
+            Map<Character, Integer> charSet = new HashMap<>();
 
-            charCount = new HashMap<>();
+            for (int i1 = 0; i1 < s.length(); i1++) {
+                charSet.merge(s.charAt(i1), 1, (a1, b1) -> a1 + b1);
+            }
 
-            guaranteedResult = new ArrayList<>();
-            trailingResult = new ArrayList<>();
+            maxOcurrences = charSet;
 
             for (int i = s.length() - 1; i >= 0; i--) {
                 char currentChar = s.charAt(i);
                 int remaining = remaining(currentChar);
 
-                System.out.println("Index [" + i + "] Char [" + currentChar + "]");
-                System.out.println("Max ocurrences of [" + currentChar + "] is [" + this.maxOcurrences.get(currentChar) + "]");
-                System.out.println("So far we used [" + this.charCount.getOrDefault(currentChar, 0) + "]");
-                System.out.println("Remaining [" + remaining + "]");
+                System.out.println("Index [" + i + "] Char [" + currentChar + "] Max ocurrences of [" + currentChar + "] is [" + this.maxOcurrences.get(currentChar) + "] So far we used [" + this.charCount.getOrDefault(currentChar, 0) + "] Remaining [" + remaining + "]");
 
                 if (remaining > maxNeeded(currentChar)) {
                     // I have spares
                     if (isLexicographycallyLower(currentChar)) {
                         //I should use it as the new head it anyway but it's not mandatory for it to end up in the final result so its the head of the trailingResult
                         System.out.println("I should use it as the new head it anyway but it's not mandatory for it to end up in the final result so its the head of the trailingResult");
-                        trailingResult.clear();
-                        trailingResult.add(currentChar);
+                        setNewTrailHead(currentChar);
                     } else {
                         // I'll use it in the result as long as there's room for more of it's kind but it wont be the head and since i have spares it will go in the trailing result
                         System.out.println("I'll use it in the result as long as there's room for more of it's kind but it wont be the head and since i have spares it will go in the trailing result");
@@ -83,22 +80,18 @@ public class Solution {
                         if (isLexicographycallyLower(currentChar)) {
                             // I must use it and it must be the head of the trail and then guaranteed
                             System.out.println("I must use it and it must be the head of the trail and then guaranteed");
-                            trailingResult.clear();
-                            trailingResult.add(currentChar);
-                            guaranteedResult.add(currentChar);
-                            trailingResult.clear();
+                            setNewTrailHead(currentChar);
+                            makeTrailGuaranteed();
                         } else {
                             if (getCurrentCount(currentChar) <= maxNeeded(currentChar)) {
                                 // This means it goes as the tail of the trail making everything on the trail mandatory
                                 System.out.println("This means it goes as the tail of the trail making everything on the trail mandatory");
                                 trailingResult.add(currentChar);
-                                guaranteedResult.addAll(trailingResult);
-                                trailingResult.clear();
+                                makeTrailGuaranteed();
                             } else {
                                 // This means it goes as the tail of the trail making everything on the trail mandatory
                                 System.out.println("This means it is not necesary to add the char because there are enough but i must make sure that if the are in teh trail they are not removed");
-                                guaranteedResult.addAll(trailingResult);
-                                trailingResult.clear();
+                                makeTrailGuaranteed();
                             }
 
                         }
@@ -109,21 +102,17 @@ public class Solution {
                             System.out.println("This means it is mandatory to use this char");
                             if (isLexicographycallyLower(currentChar)) {
                                 System.out.println("It should be the head of the trail and then guaranteed");
-                                trailingResult.clear();
-                                trailingResult.add(currentChar);
-                                guaranteedResult.addAll(trailingResult);
-                                trailingResult.clear();
+                                setNewTrailHead(currentChar);
+                                makeTrailGuaranteed();
                             } else {
                                 System.out.println("It should be the tail of the trail making everything on the trail mandatory");
                                 trailingResult.add(currentChar);
-                                guaranteedResult.addAll(trailingResult);
-                                trailingResult.clear();
+                                makeTrailGuaranteed();
                             }
                         } else {
                             // I dont need any more of this char
                             System.out.println("I dont need any more of this char but i must make sure that if the are in teh trail they are not removed");
-                            guaranteedResult.addAll(trailingResult);
-                            trailingResult.clear();
+                            makeTrailGuaranteed();
                         }
 
                     }
@@ -141,9 +130,17 @@ public class Solution {
 
             guaranteedResult.addAll(trailingResult);
 
-            return
+            return charListToString(guaranteedResult);
+        }
 
-                    charListToString(guaranteedResult);
+        private void setNewTrailHead(char currentChar) {
+            trailingResult.clear();
+            trailingResult.add(currentChar);
+        }
+
+        private void makeTrailGuaranteed() {
+            guaranteedResult.addAll(trailingResult);
+            trailingResult.clear();
         }
 
         private int maxNeeded(char currentChar) {
@@ -151,18 +148,6 @@ public class Solution {
         }
 
         private Integer getCurrentCount(char currentChar) {
-            return currentResultCount().getOrDefault(currentChar, 0);
-        }
-
-        public int remaining(char currentChar) {
-            return this.maxOcurrences.get(currentChar) - (this.charCount.getOrDefault(currentChar, 0));
-        }
-
-        public boolean isLexicographycallyLower(char currentChar) {
-            return trailingResult.isEmpty() || currentChar < trailingResult.get(0);
-        }
-
-        public Map<Character, Integer> currentResultCount() {
             Map<Character, Integer> count = new HashMap<>();
 
             for (Character c : guaranteedResult) {
@@ -173,10 +158,18 @@ public class Solution {
                 count.merge(c, 1, (a, b) -> a + b);
             }
 
-            return count;
+            return count.getOrDefault(currentChar, 0);
         }
 
-        public String charListToString(List<Character> result) {
+        int remaining(char currentChar) {
+            return this.maxOcurrences.get(currentChar) - (this.charCount.getOrDefault(currentChar, 0));
+        }
+
+        boolean isLexicographycallyLower(char currentChar) {
+            return trailingResult.isEmpty() || currentChar < trailingResult.get(0);
+        }
+
+        String charListToString(List<Character> result) {
             StringBuilder stringBuffer = new StringBuilder();
 
             for (Character c : result) {
@@ -186,14 +179,5 @@ public class Solution {
             return stringBuffer.toString();
         }
 
-        public Map<Character, Integer> getMaxOcurrences(String s) {
-            Map<Character, Integer> charSet = new HashMap<>();
-
-            for (int i = 0; i < s.length(); i++) {
-                charSet.merge(s.charAt(i), 1, (a, b) -> a + b);
-            }
-
-            return charSet;
-        }
     }
 }
