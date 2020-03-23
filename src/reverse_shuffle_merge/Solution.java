@@ -9,7 +9,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input03.txt");
+            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input102.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -70,10 +70,6 @@ public class Solution {
                 } else if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
                     System.out.println("I could use more of this char but i could drop it too");
                     tryToInsertInTrail(currentChar, false);
-                } else {
-                    System.out.println("I dont need any more of this char yet but i must guarantee that the earliest on the trail cannot be taken out because I have no spares.");
-                    guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
-                    trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
                 }
 
                 charCount.merge(currentChar, 1, (a, b) -> a + b);
