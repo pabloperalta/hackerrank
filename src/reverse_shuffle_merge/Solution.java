@@ -9,7 +9,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input04.txt");
+            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input15.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -53,120 +53,100 @@ public class Solution {
                 char currentChar = s.charAt(i);
                 int remaining = remaining(currentChar);
 
-                // System.out.println(("Index [" + i + "] Char [" + currentChar + "] Max ocurrences of [" + currentChar + "] is [" + this.maxOcurrences.get(currentChar) + "] So far we used [" + getCurrentCount(currentChar) + "] Remaining [" + remaining + "]");
+                // System.out.println("Index [" + i + "] Char [" + currentChar + "] There is a total of [" + this.maxOcurrences.get(currentChar) + "] Meaning we need [" + maxNeeded(currentChar) + "] So far we used [" + getCurrentCount(currentChar, guaranteedResult, trailingResult) + "] Remaining [" + remaining + "] Without the ones in the trail there would be [" + (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count()) + "]");
+                // System.out.println(remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf('k'))).count() <= maxNeeded(currentChar));
 
                 if (remaining > maxNeeded(currentChar)) {
-                    // I have spares
-
-                    if (trailingResult.size() > 0) {
-                        boolean inserted = false;
-
-                        for (int j = 0; j < trailingResult.size(); j++) {
-                            if (isLexicographycallyLower(currentChar, j)) {
-                                // System.out.println(("I should use it as the new head it anyway but it's not mandatory for it to end up in the final result so its the head of the trailingResult -");
-                                setNewTrailFromPos(currentChar, j);
-                                inserted = true;
-                                break;
-                            }
-                        }
-
-                        if (!inserted) {
-                            // System.out.println(("I'll use it in the result as long as there's room for more of it's kind but it wont be the head and since i have spares it will go in the trailing result");
-                            if (getCurrentCount(currentChar) < maxNeeded(currentChar)) {
-                                trailingResult.add(currentChar);
-                            } else {
-                                // This means it just won't fit so it's discarded
-                                // System.out.println(("This means it just won't fit so it's discarded");
-                            }
-                        }
-                    } else {
-                        // System.out.println(("I should use it as the new head it anyway but it's not mandatory for it to end up in the final result so its the head of the trailingResult");
-                        trailingResult.add(currentChar);
-                    }
-
+                    // System.out.println("I have spares. Will try to insert but there is no guarantee of this char being in the final result.");
+                    tryToInsertInTrail(currentChar, false);
+                } else if (remaining <= currentlyNeeded(currentChar)) {
+                    // System.out.println("Have no spares. If I don't use this char then i won't be able to form a valid result.");
+                    tryToInsertInTrail(currentChar, true);
+                } else if (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count() <= maxNeeded(currentChar)) {
+                    // System.out.println("Im running out of this char. Must protect the instances of it that are still in the trail");
+                    guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
+                    trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
+                    tryToInsertInTrail(currentChar, true);
+                } else if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
+                    // System.out.println("I could use more of this char but i could drop it too");
+                    tryToInsertInTrail(currentChar, false);
                 } else {
-                    // System.out.println(("This means it might be running out of this chars. Need to check wether it's mandatory to use it or not");
-                    if (remaining <= maxNeeded(currentChar) - getCurrentCount(currentChar)) {
-                        // System.out.println(("This means that if I don't use this char then i won't be able to form a valid result.");
-
-                        if (trailingResult.size() > 0) {
-                            boolean inserted = false;
-
-                            for (int j = 0; j < trailingResult.size(); j++) {
-                                if (isLexicographycallyLower(currentChar, j)) {
-                                    // System.out.println(("I must use it and it must be the head of the trail and then guaranteed");
-                                    setNewTrailFromPos(currentChar, j);
-                                    inserted = true;
-                                    makeTrailGuaranteed();
-                                    break;
-                                }
-                            }
-
-                            if (!inserted) {
-                                if (getCurrentCount(currentChar) <= maxNeeded(currentChar)) {
-                                    // System.out.println(("This means it goes as the tail of the trail making everything on the trail mandatory");
-                                    trailingResult.add(currentChar);
-                                    makeTrailGuaranteed();
-                                } else {
-                                    // System.out.println(("This means it is not necesary to add the char because there are enough but i must make sure that if the are in teh trail they are not removed");
-                                    makeTrailGuaranteed();
-                                }
-
-                            }
-
-                        } else {
-                            // System.out.println(("I must use it and it must be the head of the trail and then guaranteed");
-                            trailingResult.add(currentChar);
-                            makeTrailGuaranteed();
-                        }
-                    } else {
-                        // System.out.println(("This means that given that I already have some instances of this char in the result it is not mandatory for me to add it. Current count [" + getCurrentCount(currentChar) + "] Max needed [" + maxNeeded(currentChar) + "]");
-                        if (getCurrentCount(currentChar) < maxNeeded(currentChar)) {
-                            // System.out.println(("This means I could use more of this char");
-                            if (trailingResult.size() > 0) {
-                                boolean inserted = false;
-
-                                for (int j = 0; j < trailingResult.size(); j++) {
-                                    if (isLexicographycallyLower(currentChar, j)) {
-                                        // System.out.println(("It should be the in the trail");
-                                        setNewTrailFromPos(currentChar, j);
-                                        inserted = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!inserted) {
-                                    // System.out.println(("It should be the tail of the trail making but not mandatory");
-                                    trailingResult.add(currentChar);
-//                                    makeTrailGuaranteed();
-                                }
-
-                            } else {
-                                // System.out.println(("It should be the head of the trail");
-                                setNewTrailFromPos(currentChar, 0);
-                            }
-                        } else {
-                            // System.out.println(("I dont need any more of this char yet but i must guarantee that the earliest on the trail cannot be taken out");
-                            guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
-                            trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
-                        }
-
-                    }
+                    // System.out.println("I dont need any more of this char yet but i must guarantee that the earliest on the trail cannot be taken out because I have no spares.");
+                    guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
+                    trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
                 }
 
                 charCount.merge(currentChar, 1, (a, b) -> a + b);
 
-                // System.out.println(("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
-                // System.out.println(("Trail so far  [" + charListToString(trailingResult) + "]");
-                // System.out.println(();
+                // System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
+                // System.out.println("Trail so far  [" + charListToString(trailingResult) + "]");
+                // System.out.println();
             }
 
-            // System.out.println(("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
-            // System.out.println(();
+            // System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
+            // System.out.println();
 
             guaranteedResult.addAll(trailingResult);
 
             return charListToString(guaranteedResult);
+        }
+
+        private int currentlyNeeded(char currentChar) {
+            return maxNeeded(currentChar) - getCurrentCount(currentChar, guaranteedResult, trailingResult);
+        }
+
+        private void tryToInsertInTrail(char currentChar, boolean makeGuaranteed) {
+            if (trailingResult.isEmpty()) {
+                this.addAtEndOfTrail(currentChar, makeGuaranteed);
+            } else {
+                this.tryToInsertInTheCurrentTrail(currentChar, makeGuaranteed);
+            }
+        }
+
+        private void tryToInsertInTheCurrentTrail(char currentChar, boolean makeGuaranteed) {
+            boolean inserted = false;
+
+            for (int j = 0; j < trailingResult.size(); j++) {
+                if (isLexicographycallyLower(currentChar, j)) {
+                    if (getCurrentCount(currentChar, guaranteedResult, trailingResult.subList(0, j)) < maxNeeded(currentChar)) {
+                        // System.out.println("Found a lexicographically higher char in the trail. Taking its place.");
+                        setNewTrailFromPos(currentChar, j);
+                        inserted = true;
+
+                        if (makeGuaranteed) {
+                            makeTrailGuaranteed();
+                        }
+                    } else {
+                        // System.out.println("There were too many [" + currentChar + "] already");
+                        if (makeGuaranteed) {
+                            makeTrailGuaranteed();
+                        }
+                    }
+                    break;
+                }
+            }
+
+            if (!inserted) {
+                if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
+                    addAtEndOfTrail(currentChar, makeGuaranteed);
+                } else {
+                    // System.out.println("There were too many [" + currentChar + "] already");
+                    if (makeGuaranteed) {
+                        makeTrailGuaranteed();
+                    }
+                }
+            }
+        }
+
+        private void addAtEndOfTrail(char currentChar, boolean makeGuaranteed) {
+            // System.out.println("Adding [" + currentChar + "] at the end of the trail");
+            if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
+                trailingResult.add(currentChar);
+            }
+
+            if (makeGuaranteed) {
+                makeTrailGuaranteed();
+            }
         }
 
         private void setNewTrailFromPos(char currentChar, int j) {
@@ -175,12 +155,12 @@ public class Solution {
         }
 
         private void makeTrailGuaranteed() {
-            System.out.print("Adding trail as guaranteed: ");
+            // System.out.print("Adding trail as guaranteed: ");
 
             for (Character c : trailingResult) {
-                System.out.print("[" + c + "]");
+                // System.out.print("[" + c + "]");
             }
-            // System.out.println(();
+            // System.out.println();
 
             guaranteedResult.addAll(trailingResult);
             trailingResult.clear();
@@ -190,7 +170,7 @@ public class Solution {
             return this.maxOcurrences.get(currentChar) / 2;
         }
 
-        private Integer getCurrentCount(char currentChar) {
+        private Integer getCurrentCount(char currentChar, List<Character> guaranteedResult, List<Character> trailingResult) {
             Map<Character, Integer> count = new HashMap<>();
 
             for (Character c : guaranteedResult) {
