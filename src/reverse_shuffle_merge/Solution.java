@@ -9,7 +9,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input15.txt");
+            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input03.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -53,38 +53,38 @@ public class Solution {
                 char currentChar = s.charAt(i);
                 int remaining = remaining(currentChar);
 
-                // System.out.println("Index [" + i + "] Char [" + currentChar + "] There is a total of [" + this.maxOcurrences.get(currentChar) + "] Meaning we need [" + maxNeeded(currentChar) + "] So far we used [" + getCurrentCount(currentChar, guaranteedResult, trailingResult) + "] Remaining [" + remaining + "] Without the ones in the trail there would be [" + (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count()) + "]");
-                // System.out.println(remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf('k'))).count() <= maxNeeded(currentChar));
+                System.out.println("Index [" + i + "] Char [" + currentChar + "] There is a total of [" + this.maxOcurrences.get(currentChar) + "] Meaning we need [" + maxNeeded(currentChar) + "] So far we used [" + getCurrentCount(currentChar, guaranteedResult, trailingResult) + "] Remaining [" + remaining + "] Without the ones in the trail there would be [" + (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count()) + "]");
+                System.out.println(remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf('k'))).count() <= maxNeeded(currentChar));
 
                 if (remaining > maxNeeded(currentChar)) {
-                    // System.out.println("I have spares. Will try to insert but there is no guarantee of this char being in the final result.");
+                    System.out.println("I have spares. Will try to insert but there is no guarantee of this char being in the final result.");
                     tryToInsertInTrail(currentChar, false);
                 } else if (remaining <= currentlyNeeded(currentChar)) {
-                    // System.out.println("Have no spares. If I don't use this char then i won't be able to form a valid result.");
+                    System.out.println("Have no spares. If I don't use this char then i won't be able to form a valid result.");
                     tryToInsertInTrail(currentChar, true);
                 } else if (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count() <= maxNeeded(currentChar)) {
-                    // System.out.println("Im running out of this char. Must protect the instances of it that are still in the trail");
+                    System.out.println("Im running out of this char. Must protect the instances of it that are still in the trail");
                     guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
                     trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
-                    tryToInsertInTrail(currentChar, true);
+                    tryToInsertInTrail(currentChar, false);
                 } else if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
-                    // System.out.println("I could use more of this char but i could drop it too");
+                    System.out.println("I could use more of this char but i could drop it too");
                     tryToInsertInTrail(currentChar, false);
                 } else {
-                    // System.out.println("I dont need any more of this char yet but i must guarantee that the earliest on the trail cannot be taken out because I have no spares.");
+                    System.out.println("I dont need any more of this char yet but i must guarantee that the earliest on the trail cannot be taken out because I have no spares.");
                     guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
                     trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
                 }
 
                 charCount.merge(currentChar, 1, (a, b) -> a + b);
 
-                // System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
-                // System.out.println("Trail so far  [" + charListToString(trailingResult) + "]");
-                // System.out.println();
+                System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
+                System.out.println("Trail so far  [" + charListToString(trailingResult) + "]");
+                System.out.println();
             }
 
-            // System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
-            // System.out.println();
+            System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
+            System.out.println();
 
             guaranteedResult.addAll(trailingResult);
 
@@ -109,7 +109,7 @@ public class Solution {
             for (int j = 0; j < trailingResult.size(); j++) {
                 if (isLexicographycallyLower(currentChar, j)) {
                     if (getCurrentCount(currentChar, guaranteedResult, trailingResult.subList(0, j)) < maxNeeded(currentChar)) {
-                        // System.out.println("Found a lexicographically higher char in the trail. Taking its place.");
+                        System.out.println("Found a lexicographically higher char in the trail. Taking its place.");
                         setNewTrailFromPos(currentChar, j);
                         inserted = true;
 
@@ -117,7 +117,7 @@ public class Solution {
                             makeTrailGuaranteed();
                         }
                     } else {
-                        // System.out.println("There were too many [" + currentChar + "] already");
+                        System.out.println("There were too many [" + currentChar + "] already");
                         if (makeGuaranteed) {
                             makeTrailGuaranteed();
                         }
@@ -130,7 +130,7 @@ public class Solution {
                 if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
                     addAtEndOfTrail(currentChar, makeGuaranteed);
                 } else {
-                    // System.out.println("There were too many [" + currentChar + "] already");
+                    System.out.println("There were too many [" + currentChar + "] already");
                     if (makeGuaranteed) {
                         makeTrailGuaranteed();
                     }
@@ -139,7 +139,7 @@ public class Solution {
         }
 
         private void addAtEndOfTrail(char currentChar, boolean makeGuaranteed) {
-            // System.out.println("Adding [" + currentChar + "] at the end of the trail");
+            System.out.println("Adding [" + currentChar + "] at the end of the trail");
             if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
                 trailingResult.add(currentChar);
             }
@@ -155,12 +155,12 @@ public class Solution {
         }
 
         private void makeTrailGuaranteed() {
-            // System.out.print("Adding trail as guaranteed: ");
+            System.out.print("Adding trail as guaranteed: ");
 
             for (Character c : trailingResult) {
-                // System.out.print("[" + c + "]");
+                System.out.print("[" + c + "]");
             }
-            // System.out.println();
+            System.out.println();
 
             guaranteedResult.addAll(trailingResult);
             trailingResult.clear();
