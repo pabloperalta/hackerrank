@@ -11,28 +11,14 @@ public class Solution {
 
         Arrays.sort(originalCost);
 
-        int[] purchasesPerClient = new int[clients];
+        int purchases_count = 0;
 
         int cost = 0;
 
         for (int i = originalCost.length - 1; i >= 0; i--) {
-            int minPurchases = Integer.MAX_VALUE;
-            int indexOfMin = 0;
-
-            for (int j = 0; j < purchasesPerClient.length; j++) {
-                int current = purchasesPerClient[j];
-
-                if (current < minPurchases) {
-                    minPurchases = current;
-                    indexOfMin = j;
-                }
-            }
-
-            int price = originalCost[i] * (minPurchases + 1);
+            int price = originalCost[i] * ((purchases_count / clients) + 1);
+            purchases_count++;
             cost += price;
-            purchasesPerClient[indexOfMin] += 1;
-//            System.out.println("Client number [" + indexOfMin + "] bought flower [" + i + "] that costed [" + price + "]. So far the clients spent [" + cost + "]");
-//            System.out.println("Purchases per client " + Arrays.toString(purchasesPerClient));
         }
 
         return cost;
