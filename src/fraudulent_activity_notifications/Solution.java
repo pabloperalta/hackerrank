@@ -16,7 +16,7 @@ public class Solution {
         }
 
 
-        // Create a count array to store count of inidividal characters and initialize count array as 0
+        // Create a count array to store count of individual characters and initialize count array as 0
         int countsArray[] = new int[MAX_EXPENDITURE];
         int additive[] = new int[MAX_EXPENDITURE];
         for (int i1 = 0; i1 < MAX_EXPENDITURE; ++i1) {
