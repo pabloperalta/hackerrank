@@ -1,60 +1,81 @@
 package special_string_again;
 
 import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Solution {
 
     // Complete the substrCount function below.
     static long substrCount(int n, String s) {
-        long valids = 0;
+        int valids = 0;
 
         for (int i = 0; i < s.length(); i++) {
-            Map<Character, Integer> charCount = new HashMap<>();
-            char firstChar = s.charAt(i);
+            char currentChar = s.charAt(i);
 
-            for (int j = i; j < s.length(); j++) {
-                //Count J character
-                charCount.merge(s.charAt(j), 1, (x, y) -> x + y);
 
-                // Cheap enough but the whole thing could be optimized more implementing a proper sliding window
-                if (charCount.keySet().size() > 2 || (charCount.values().size() == 2 && charCount.values().stream().noneMatch(x -> x == 1))) {
+            // First I check if all the characters are the same in strings with an even length
+            // Check that all chars in front of the current one are the same
+            // O(n/2)
+            for (int j = 1; i + j < s.length(); j += 2) {
+
+                if (s.charAt(i+j) != currentChar) {
+                    // Once I found a different char, I can stop looking for string with all the same chars from s[i] as a starting point
                     break;
                 }
 
-                int currentStringLength = (j + 1) - i;
-
-                if (currentStringLength == charCount.get(firstChar)) {
-//                        System.out.println("Found " + s.substring(i, j + 1));
-                    valids++;
-                } else if (currentStringLength > 0 && currentStringLength % 2 == 1) {
-                    //Remove the mid character from the count
-                    char midChar = s.charAt(i + (currentStringLength / 2));
-                    charCount.merge(midChar, 1, (x, y) -> x - y);
-
-                    if (charCount.get(firstChar) == (currentStringLength - 1)) {
-//                            System.out.println("Found " + s.substring(i, j + 1));
-                        valids++;
-                    }
-
-                    //Restore the mid character to the count
-                    charCount.merge(midChar, 1, (x, y) -> x + y);
-                }
+                // While the chars are the same as the initial one, then the string has all the same chars
+                logFoundValidString(s, i + j, i);
+                valids++;
             }
 
-            // Remove i character from the count
-            charCount.merge(firstChar, 1, (x, y) -> x - y);
+            // Secondly I check the case of odd length string, than can have a mid char that differs from the rest
+            Character sides = null;
+
+            //O(n/2)
+            for (int j = 0; i - j >= 0 && i + j < s.length(); j++) {
+
+                // All string with a single char are valid
+                if(j==0){
+                    logFoundValidString(s, i + j, i - j);
+                    valids++;
+                    continue;
+                }
+
+                // If opposing chars are not the same, then there is no point in keeping evaluating from this position
+                if((s.charAt(i + j) != s.charAt(i - j) )){
+                    break;
+                }
+
+                // I init the reference to the chars on my sides [i-1]<-[i]->[i+1]
+                if (j == 1) {
+                    sides = s.charAt(i + 1);
+                }
+
+                // If I got here, the opposing chars are the same. But if they are not the same as the reference char then this string is not valid nor will be the rest from this position
+                if (sides != s.charAt(i + j)) {
+                    break;
+                }
+
+                // Every symmetrically opposing char in this string is the same char.
+                logFoundValidString(s, i + j, i - j);
+                valids++;
+            }
+
         }
 
-//        System.out.println("Total: " + valids);
         return valids;
+
+    }
+
+    private static void logFoundValidString(String s, int end, int start) {
+        System.out.println("Found one from ["+ start +"] to ["+ end +"]: ["+s.substring(start, (end + 1 ))+"]");
     }
 
     private static final Scanner scanner = new Scanner(getSource());
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\special_string_again\\input00.txt");
+            return new FileInputStream(".\\src\\special_string_again\\input16.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
