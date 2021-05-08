@@ -12,7 +12,7 @@ public class Solution {
     static int commonChild(String s1, String s2) {
         //https://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         //https://en.wikipedia.org/wiki/Dynamic_programming
-        // Since there was a recursive aproach then dynamic programming could be use. Before solving a problem we check if we solved it before to sae time.
+        // Since there was a recursive approach then dynamic programming could be use. Before solving a problem we check if we solved it before to save time.
         // If I arrive to a word i already formed through a different path then I must have already calculated the max length I can get
 
         int[][] lcsMatrix = new int[s1.length() + 1][s2.length() + 1];
