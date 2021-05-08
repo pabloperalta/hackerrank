@@ -18,8 +18,8 @@ public class Solution {
             // Si k completa triplets (es 3er elemento de algun triplet), los sumo
             count += cantidadDeTripletsQueSeCompletanconK.getOrDefault(k, 0L);
 
-            // Si k es elemento intermedio (tiene uno anterior) entonces dige que cuando aparezca el 3ro
-            // la cantidad de triplets completados aumenta en tantas vece como haya visto al anterior
+            // Si k es elemento intermedio (tiene uno anterior) entonces dice que cuando aparezca el 3ro
+            // la cantidad de triplets completados aumenta en tantas veces como haya visto al anterior
             if ((k % r) == 0 && vecesQueViK.get(k / r) != null) {
                 cantidadDeTripletsQueSeCompletanconK.put(k * r, cantidadDeTripletsQueSeCompletanconK.getOrDefault(k * r, 0L) + vecesQueViK.get(k / r));
             }
