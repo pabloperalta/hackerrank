@@ -1,72 +1,88 @@
 package ice_cream_parlor;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.*;
+import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-public class Solution {
+import static java.util.stream.Collectors.toList;
 
+class Result {
     // Complete the whatFlavors function below.
-    static void whatFlavors(int[] cost, int money) {
-        List<Pair> costPairs = new ArrayList<>();
-
-        for (int i = 0; i < cost.length; i++) {
-            costPairs.add(new Pair(i + 1, cost[i]));
-        }
-
-        costPairs.sort(Comparator.comparingInt(x -> x.value));
+    static void whatFlavors(List<Integer> cost, int money) {
+        // I create a list of pairs so I can sort by value without loosing the ID of the cost, previously represented
+        // as the position in the original array.
+        List<Pair> costPairs = IntStream.range(0, cost.size())
+                .mapToObj(i -> new Pair(i + 1, cost.get(i)))
+                .sorted(Comparator.comparingInt(Pair::getValue))
+                .collect(toList());
 
         for (Pair pair : costPairs) {
-            int complement = Collections.binarySearch(costPairs, new Pair(-1, money - pair.getValue()), (o1, o2) -> {
-                if (o1.getIndex() == o2.getIndex()) {
-                    return -1;
-                }
-                return o1.getValue() - o2.getValue();
-            });
+            int complementaryCostForThisPair = money - pair.getValue();
 
-            if (complement > 0) {
-                Pair found = costPairs.get(complement);
-                if (found.getIndex() != pair.getIndex()) {
-                    if (pair.getIndex() < found.getIndex()) {
-                        System.out.println(pair.getIndex() + " " + found.getIndex());
-                        return;
-                    } else {
-                        System.out.println(found.getIndex() + " " + pair.getIndex());
-                        return;
-                    }
-                }
+            // I want to find a pair with the complementary cost as it's value
+            Pair key = new Pair(-1, complementaryCostForThisPair);
+
+            // I use binary search because it is O(log n)
+            int indexOfComplementaryPrice = Collections.binarySearch(costPairs, key, Result::compare);
+
+            // If I did not find a complementary value or it is myself, keep looking for a solution
+            if (indexOfComplementaryPrice <= 0 || indexOfComplementaryPrice == pair.getIndex()) {
+                continue;
             }
+
+            printSolutionInOrder(pair, costPairs.get(indexOfComplementaryPrice));
+            return;
         }
     }
 
-    public static class Pair {
-        int index;
-        int value;
-
-        public Pair(int index, int value) {
-            this.index = index;
-            this.value = value;
+    private static void printSolutionInOrder(Pair pair, Pair complement) {
+        // Print the lower index first
+        if (pair.getIndex() < complement.getIndex()) {
+            printSolution(pair, complement);
+            return;
         }
 
-        public int getIndex() {
-            return index;
-        }
-
-        public void setIndex(int index) {
-            this.index = index;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
+        printSolution(complement, pair);
     }
 
-    private static final Scanner scanner = new Scanner(getSource());
+    private static void printSolution(Pair pair, Pair found) {
+        System.out.println(pair.getIndex() + " " + found.getIndex());
+    }
+
+    private static int compare(Pair o1, Pair o2) {
+        if (o1.getIndex() == o2.getIndex()) {
+            return -1;
+        }
+
+        // I am comparing by value
+        return o1.getValue() - o2.getValue();
+    }
+
+}
+
+class Pair {
+    private int index;
+    private int value;
+
+    Pair(int index, int value) {
+        this.index = index;
+        this.value = value;
+    }
+
+    int getIndex() {
+        return index;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+}
+
+public class Solution {
 
     private static InputStream getSource() {
         try {
@@ -77,31 +93,28 @@ public class Solution {
         }
     }
 
-    public static void main(String[] args) {
-        int t = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getSource()));
 
-        for (int tItr = 0; tItr < t; tItr++) {
-            int money = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        int t = Integer.parseInt(bufferedReader.readLine().trim());
 
-            int n = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        IntStream.range(0, t).forEach(tItr -> {
+            try {
+                int money = Integer.parseInt(bufferedReader.readLine().trim());
 
-            int[] cost = new int[n];
+                int n = Integer.parseInt(bufferedReader.readLine().trim());
 
-            String[] costItems = scanner.nextLine().split(" ");
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+                List<Integer> cost = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList());
 
-            for (int i = 0; i < n; i++) {
-                int costItem = Integer.parseInt(costItems[i]);
-                cost[i] = costItem;
+                Result.whatFlavors(cost, money);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+        });
 
-            whatFlavors(cost, money);
-        }
-
-        scanner.close();
+        bufferedReader.close();
     }
 }
 
