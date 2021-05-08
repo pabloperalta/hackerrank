@@ -12,7 +12,7 @@ public class Solution {
 
         int minUnfairness = Integer.MAX_VALUE;
 
-        for (int i = 0; i < arr.length - (k-1); i++) {
+        for (int i = 0; i < arr.length - k; i++) {
             int unfairness = arr[i + (k - 1)] - arr[i];
 
             if (unfairness < minUnfairness) {
@@ -27,7 +27,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\max_min\\input16.txt");
+            return new FileInputStream(".\\src\\max_min\\input01.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
