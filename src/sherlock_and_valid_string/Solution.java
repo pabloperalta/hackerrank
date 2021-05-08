@@ -42,7 +42,14 @@ public class Solution {
 
 //        System.out.println("Max: " + max + " Min: " + min + " MaxCount: " + countMax);
 
-        return (Objects.equals(max, min) || (max - min <= 1 && countMax == 1) || (countMax.equals(charFrequency.size() - 1) && min.equals(1))) ? "YES" : "NO";
+        return (
+                //No need to delete one char
+                Objects.equals(max, min)
+                        // One char appears one more time too many
+                        ||(max - min <= 1 && countMax == 1)
+                        // Corner case (eg: aaaaaaaaaaaz) I can outright eliminate a char and the remaining string will be all the same chars
+                        || (countMax.equals(charFrequency.size() - 1) && min.equals(1))
+        ) ? "YES" : "NO";
     }
 
     private static Integer getIncrementedCount(Map<Character, Integer> charFrequency, char key) {
