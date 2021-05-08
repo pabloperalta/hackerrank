@@ -16,9 +16,9 @@ public class Solution {
         for (int i = contests.length - 1; i >= 0; i--) {
             int[] contest = contests[i];
             int luckValue = contest[0];
-            int importancy = contest[1];
+            int importance = contest[1];
 
-            if (importancy == 0) {
+            if (importance == 0) {
                 savedLuck += luckValue;
             } else if (k > 0) {
                 k--;
