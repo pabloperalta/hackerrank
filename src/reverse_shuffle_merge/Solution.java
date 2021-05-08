@@ -53,8 +53,7 @@ public class Solution {
                 char currentChar = s.charAt(i);
                 int remaining = remaining(currentChar);
 
-                System.out.println("Index [" + i + "] Char [" + currentChar + "] There is a total of [" + this.maxOcurrences.get(currentChar) + "] Meaning we need [" + maxNeeded(currentChar) + "] So far we used [" + getCurrentCount(currentChar, guaranteedResult, trailingResult) + "] Remaining [" + remaining + "] Without the ones in the trail there would be [" + (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count()) + "]");
-                System.out.println(remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf('k'))).count() <= maxNeeded(currentChar));
+                System.out.println("Index [" + i + "] Char [" + currentChar + "] There is a total of [" + this.maxOcurrences.get(currentChar) + "] Meaning we need [" + maxNeeded(currentChar) + "] So far our string has [" + getCurrentCount(currentChar, guaranteedResult, trailingResult) + "], Remaining in the input [" + remaining + "] Without the ones in the trail there would be [" + (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count()) + "]");
 
                 if (remaining > maxNeeded(currentChar)) {
                     System.out.println("I have spares. Will try to insert but there is no guarantee of this char being in the final result.");
@@ -64,6 +63,7 @@ public class Solution {
                     tryToInsertInTrail(currentChar, true);
                 } else if (remaining + getCurrentCount(currentChar, guaranteedResult, trailingResult) - trailingResult.stream().filter(x -> x.equals(Character.valueOf(currentChar))).count() <= maxNeeded(currentChar)) {
                     System.out.println("Im running out of this char. Must protect the instances of it that are still in the trail");
+                    System.out.println("Moving part of the trail to guaranteed: [" + charListToString(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1)) + "]");
                     guaranteedResult.addAll(trailingResult.subList(0, trailingResult.indexOf(currentChar) + 1));
                     trailingResult = trailingResult.subList(trailingResult.indexOf(currentChar) + 1, trailingResult.size());
                     tryToInsertInTrail(currentChar, false);
@@ -75,6 +75,7 @@ public class Solution {
                 charCount.merge(currentChar, 1, (a, b) -> a + b);
 
                 System.out.println("currentString [" + charListToString(guaranteedResult) + charListToString(trailingResult) + "]");
+                System.out.println("guaranteed [" + charListToString(guaranteedResult) + "]");
                 System.out.println("Trail so far  [" + charListToString(trailingResult) + "]");
                 System.out.println();
             }
@@ -103,9 +104,9 @@ public class Solution {
             boolean inserted = false;
 
             for (int j = 0; j < trailingResult.size(); j++) {
-                if (isLexicographycallyLower(currentChar, j)) {
+                if (isLexicographicallyLower(currentChar, j)) {
                     if (getCurrentCount(currentChar, guaranteedResult, trailingResult.subList(0, j)) < maxNeeded(currentChar)) {
-                        System.out.println("Found a lexicographically higher char in the trail. Taking its place.");
+                        System.out.println("Found a lexicographically higher char in the trail. Taking its place. Discarding [" + charListToString(trailingResult.subList(j, trailingResult.size())) + "]");
                         setNewTrailFromPos(currentChar, j);
                         inserted = true;
 
@@ -135,8 +136,8 @@ public class Solution {
         }
 
         private void addAtEndOfTrail(char currentChar, boolean makeGuaranteed) {
-            System.out.println("Adding [" + currentChar + "] at the end of the trail");
             if (getCurrentCount(currentChar, guaranteedResult, trailingResult) < maxNeeded(currentChar)) {
+                System.out.println("Adding [" + currentChar + "] at the end of the trail");
                 trailingResult.add(currentChar);
             }
 
@@ -184,7 +185,7 @@ public class Solution {
             return this.maxOcurrences.get(currentChar) - (this.charCount.getOrDefault(currentChar, 0));
         }
 
-        boolean isLexicographycallyLower(char currentChar, int j) {
+        boolean isLexicographicallyLower(char currentChar, int j) {
             return trailingResult.isEmpty() || currentChar < trailingResult.get(j);
         }
 
