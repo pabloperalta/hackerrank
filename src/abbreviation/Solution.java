@@ -25,48 +25,42 @@ class Result {
         }
 
         int ai = 0;
+        int bi = 0;
 
-        for (int i = 0; i < b.length(); i++) {
-            char currentChar = b.charAt(i);
-
+        while (ai < a.length() || bi < b.length()) {
             if (ai >= a.length()) {
-                System.out.println("Could not find a match for ["+currentChar+"]");
+                System.out.println("Could not find a match for [" + b.charAt(bi) + "]");
                 System.out.println();
                 return "NO";
             }
 
-            while (a.charAt(ai) != currentChar && Character.toUpperCase(a.charAt(ai)) != currentChar) {
-                if(Character.isUpperCase(a.charAt(ai))){
-                    System.out.println("I cannot delete ["+a.charAt(ai)+"] and it has no oportune match");
-                    System.out.println();
-                    return "NO";
+            if (bi < b.length()) {
+                char currentChar = b.charAt(bi);
+
+                if (a.charAt(ai) == currentChar || Character.toUpperCase(a.charAt(ai)) == currentChar) {
+                    System.out.println("Found [" + a.charAt(ai) + "] in a for [" + currentChar + "]");
+                    bi++;
+                } else {
+                    if (Character.isUpperCase(a.charAt(ai))) {
+                        System.out.println("I cannot delete [" + a.charAt(ai) + "] and it has no oportune match");
+                        System.out.println();
+                        return "NO";
+                    }
                 }
 
                 ai++;
-
-                if (ai >= a.length()) {
-                    System.out.println("Could not find a match for ["+currentChar+"]");
+            } else {
+                if (Character.isUpperCase(a.charAt(ai))) {
+                    System.out.println("I cannot delete [" + a.charAt(ai) + "] and it has no oportune match");
                     System.out.println();
                     return "NO";
                 }
-
-            }
-
-            System.out.println("Found [" + a.charAt(ai) + "] in a for [" + currentChar + "]");
-            ai++;
-        }
-
-        for (int i = ai; i < a.length(); i++) {
-            if(Character.isUpperCase(a.charAt(i))){
-                System.out.println("I cannot delete ["+a.charAt(ai)+"] and it has no oportune match");
-                System.out.println();
-                return "NO";
+                ai++;
             }
         }
 
         System.out.println("It is possible!");
         System.out.println();
-
         return "YES";
 
     }
