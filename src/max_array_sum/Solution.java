@@ -10,50 +10,26 @@ public class Solution {
         int[][] matrix = new int[arr.length][arr.length];
         int result = Integer.MIN_VALUE;
 
-        printHeader(arr);
-
         for (int i = 0; i < arr.length; i++) {
 
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = i; j < arr.length; j++) {
 
-                if(j==0){
-                    System.out.print(arr[i] + "|");
-                }
+                int currentValue = arr[j];
 
-                if (j < i) {
-                    System.out.print("X ");
-                } else {
-                    int currentValue = arr[j];
+                int maxCombinationBackwards = Math.max(calculateOneSkipBack(matrix, i, j), calculateTwoSkipBack(matrix, i, j));
 
-                    int oneSkip = calculateOneSkipBack(matrix, i, j);
+                int maxForThisElement = (currentValue > 0 ? currentValue : 0) + maxCombinationBackwards;
 
-                    int twoSkip = calculateTwoSkipBack(matrix, i, j);
+                matrix[i][j] = maxForThisElement;
 
-                    int maxCombinationBackwards = Math.max(oneSkip, twoSkip);
-
-                    int maxForThisElement = (currentValue > 0 ? currentValue : 0) + maxCombinationBackwards;
-                    matrix[i][j] = maxForThisElement;
-
-                    System.out.print(maxForThisElement + " ");
-
-                    if (result < maxForThisElement) {
-                        result = maxForThisElement;
-                    }
+                if (result < maxForThisElement) {
+                    result = maxForThisElement;
                 }
             }
 
-            System.out.println();
         }
 
         return result;
-    }
-
-    private static void printHeader(int[] arr) {
-        System.out.print("+ ");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
     }
 
     private static int calculateTwoSkipBack(int[][] matrix, int i, int j) {
