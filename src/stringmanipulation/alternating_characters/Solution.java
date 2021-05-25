@@ -1,12 +1,7 @@
-package alternating_characters;
+package stringmanipulation.alternating_characters;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -32,7 +27,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\alternating_characters\\input00.txt");
+            return new FileInputStream(".\\src\\stringmanipulation\\alternating_characters\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -40,7 +35,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\alternating_characters\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\stringmanipulation\\alternating_characters\\output.txt"));
 
         int q = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");

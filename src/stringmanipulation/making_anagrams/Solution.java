@@ -1,19 +1,15 @@
-package making_anagrams;
+package stringmanipulation.making_anagrams;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Solution {
 
     // Complete the makeAnagram function below.
     static int makeAnagram(String a, String b) {
         Map<Character, Integer> charCount = new HashMap<>();
-
 
         for (int i = 0; i < a.length(); i++) {
             charCount.merge(a.charAt(i), 1, (x, y) -> x + y);
@@ -35,7 +31,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\making_anagrams\\input00.txt");
+            return new FileInputStream(".\\src\\stringmanipulation\\making_anagrams\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -43,7 +39,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\making_anagrams\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\stringmanipulation\\making_anagrams\\output.txt"));
 
         String a = scanner.nextLine();
 

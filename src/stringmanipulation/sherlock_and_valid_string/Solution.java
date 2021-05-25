@@ -1,7 +1,10 @@
-package sherlock_and_valid_string;
+package stringmanipulation.sherlock_and_valid_string;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -27,7 +30,6 @@ public class Solution {
             }
         }
 
-
         for (Character key : charFrequency.keySet()) {
             Integer freq = charFrequency.get(key);
 //            System.out.println("Key: " + key + " - Value: " + freq);
@@ -46,7 +48,7 @@ public class Solution {
                 //No need to delete one char
                 Objects.equals(max, min)
                         // One char appears one more time too many
-                        ||(max - min <= 1 && countMax == 1)
+                        || (max - min <= 1 && countMax == 1)
                         // Corner case (eg: aaaaaaaaaaaz) I can outright eliminate a char and the remaining string will be all the same chars
                         || (countMax.equals(charFrequency.size() - 1) && min.equals(1))
         ) ? "YES" : "NO";
@@ -66,7 +68,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\sherlock_and_valid_string\\input13.txt");
+            return new FileInputStream(".\\src\\stringmanipulation\\sherlock_and_valid_string\\input13.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -74,7 +76,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\sherlock_and_valid_string\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\stringmanipulation\\sherlock_and_valid_string\\output.txt"));
 
         String s = scanner.nextLine();
 
