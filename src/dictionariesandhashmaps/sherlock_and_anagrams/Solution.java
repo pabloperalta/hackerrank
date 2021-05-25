@@ -1,4 +1,4 @@
-package sherlock_and_anagrams;
+package dictionariesandhashmaps.sherlock_and_anagrams;
 
 import java.io.IOException;
 import java.util.ArrayList;

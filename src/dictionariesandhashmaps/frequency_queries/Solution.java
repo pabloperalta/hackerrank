@@ -1,9 +1,10 @@
-package frequency_queries;
+package dictionariesandhashmaps.frequency_queries;
 
-import java.io.*;
-import java.util.*;
-
-import static java.util.stream.Collectors.joining;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Solution {
 
@@ -13,13 +14,12 @@ public class Solution {
         Map<Integer, Integer> index = new HashMap<>(queries.length);
         Map<Integer, Integer> invertedIndex = new HashMap<>(queries.length);
 
-
         for (int[] query : queries) {
             Integer operation = query[0];
             Integer argument = query[1];
 
-//            System.out.println();
-//            System.out.println("Op [" + operation + "] - Arg[" + argument + "]");
+            System.out.println();
+            System.out.println("Operation[" + operation + "] - Argument[" + argument + "]");
 
             switch (operation) {
                 case 1:
@@ -37,15 +37,15 @@ public class Solution {
                     break;
                 case 3:
                     int result = invertedIndex.get(argument) != null ? 1 : 0;
-//                    System.out.println("FrequencySearch arg: " + argument + " [" + (invertedIndex.get(argument) == null ? "Not found" : "Found") + "]");
+                    System.out.println("FrequencySearch arg: " + argument + " [" + (invertedIndex.get(argument) == null ? "Not found" : "Found") + "]");
                     results.add(result);
                     break;
                 default:
                     break;
             }
 
-//            describeMap("Index", index);
-//            describeMap("Inverted Index", invertedIndex);
+            describeMap("Index", index);
+            describeMap("Inverted Index", invertedIndex);
         }
 
         return results;
@@ -110,30 +110,6 @@ public class Solution {
 
     }
 
-//    public static void main(String[] args) throws IOException {
-//        try (BufferedReader bufferedReader = new BufferedReader(
-//                new InputStreamReader(new FileInputStream(".\\src\\frequency_queries\\input07.txt")))) {
-//
-//            int q = Integer.parseInt(bufferedReader.readLine().trim());
-//            int[][] queries = new int[q][2];
-//
-//            for (int i = 0; i < q; i++) {
-//                String[] query = bufferedReader.readLine().split(" ");
-//                queries[i][0] = Integer.parseInt(query[0]);
-//                queries[i][1] = Integer.parseInt(query[1]);
-//            }
-//
-//            List<Integer> ans = freqQuery(queries);
-//
-//            try (BufferedWriter bufferedWriter = new BufferedWriter(
-//                    new FileWriter(".\\src\\frequency_queries\\outpt.txt"))) {
-//
-//                bufferedWriter.write(ans.stream().map(Object::toString)
-//                        .collect(joining("\n")) + "\n");
-//            }
-//        }
-//    }
-
     public static void main(String[] args) throws IOException {
 
         int[][] queries = new int[][]{
@@ -149,27 +125,15 @@ public class Solution {
                 new int[]{3, 1},
                 new int[]{2, 10},
                 new int[]{3, 1},
-//                new int[]{1, 4},
-//                new int[]{1, 5},
-//                new int[]{1, 5},
-//                new int[]{1, 4},
-//                new int[]{3, 2},
-//                new int[]{2, 4},
-//                new int[]{3, 2},
-//                new int[]{2, 3},
-//                new int[]{2, 4},
-//                new int[]{2, 4},
-//                new int[]{2, 5},
-//                new int[]{2, 5},
-//                new int[]{3, 1},
         };
 
         List<Integer> ans = freqQuery(queries);
 
+        System.out.println();
+        System.out.println("Answers:");
         for (Integer n : ans) {
             System.out.println(n);
         }
-
 
     }
 }

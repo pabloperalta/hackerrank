@@ -1,8 +1,8 @@
-package countTriplets;
+package dictionariesandhashmaps.countTriplets;
 
 import java.io.*;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -15,16 +15,16 @@ public class Solution {
         long count = 0;
 
         for (long k : arr) {
-            // Si k completa triplets (es 3er elemento de algun triplet), los sumo
+            // If k completes a triplet (is the third element of any triplet) then I add it
             count += cantidadDeTripletsQueSeCompletanconK.getOrDefault(k, 0L);
 
-            // Si k es elemento intermedio (tiene uno anterior) entonces dice que cuando aparezca el 3ro
-            // la cantidad de triplets completados aumenta en tantas veces como haya visto al anterior
+            // If k is a middle element (has a previous one) then, when the third one shows up the amount of completes
+            // triplets will increase as many times as possible previous elements for k I have already seen
             if ((k % r) == 0 && vecesQueViK.get(k / r) != null) {
                 cantidadDeTripletsQueSeCompletanconK.put(k * r, cantidadDeTripletsQueSeCompletanconK.getOrDefault(k * r, 0L) + vecesQueViK.get(k / r));
             }
 
-            // Marco como visto a k para que los siguientes sepan que esta disponible para armar ternas
+            // K is counted as seen so that the following elements know it is available to form triplets
             vecesQueViK.merge(k, 1L, (a, b) -> a + b);
         }
 
@@ -33,8 +33,8 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\countTriplets\\input06.txt")));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\countTriplets\\output.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\dictionariesandhashmaps\\countTriplets\\input06.txt")));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\dictionariesandhashmaps\\countTriplets\\output.txt"));
 
         String[] nr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 

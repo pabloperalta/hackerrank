@@ -1,14 +1,8 @@
-package two_strings;
+package dictionariesandhashmaps.two_strings;
 
-import com.sun.deploy.util.StringUtils;
-
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -26,7 +20,7 @@ public class Solution {
             charSet.add(s1.charAt(i));
         }
 
-        for(Character character : charSet){
+        for (Character character : charSet) {
             if (s2.contains(String.valueOf(character))) {
                 return "YES";
             }
