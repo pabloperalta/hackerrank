@@ -1,4 +1,4 @@
-package minimum_swaps;
+package arrays.minimum_swaps;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +75,6 @@ public class Solution {
             j = arrpos.get(j).getValue();  // move to next node
             cycle_size++;
         }
-
 
         System.out.println("] Size = " + (cycle_size > 0 ? (cycle_size - 1) : 0));
         return cycle_size;

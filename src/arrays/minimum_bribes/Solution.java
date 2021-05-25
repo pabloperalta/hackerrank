@@ -1,10 +1,8 @@
-package minimum_bribes;
+package arrays.minimum_bribes;
 
 import java.util.Scanner;
 
 public class Solution {
-
-    // Complete the minimumBribes function below.
 
     // Complete the minimumBribes function below.
     static void minimumBribes(int[] q) {
@@ -22,7 +20,7 @@ public class Solution {
                     throw new RuntimeException("Too chaotic");
                 }
 
-                for (int j = i-1 ; j>=0 && j >=value-1; j--) {
+                for (int j = i - 1; j >= 0 && j >= value - 1; j--) {
                     if (q[j] > value) {
                         totalPermutations++;
                     }
@@ -39,7 +37,7 @@ public class Solution {
 
     public static void main(String[] args) {
         minimumBribes(new int[]{2, 1, 5, 3, 4});
-        minimumBribes(new int[]{5,1,2,3,7,8,6,4});
+        minimumBribes(new int[]{5, 1, 2, 3, 7, 8, 6, 4});
         minimumBribes(new int[]{1, 2, 5, 3, 7, 8, 6, 4});
     }
 }

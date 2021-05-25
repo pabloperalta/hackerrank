@@ -1,7 +1,7 @@
-package array_manipulation;
+package arrays.array_manipulation;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Solution {
 
