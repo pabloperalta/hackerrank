@@ -1,7 +1,9 @@
-package steady_gene;
+package problemsolving.steady_gene;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -19,7 +21,7 @@ public class Solution {
 
         for (int incrementalIndex = 0; incrementalIndex < gene.length(); incrementalIndex++) {
             countOcurrences.merge(gene.charAt(incrementalIndex), 1, (a, b) -> a + b);
-         }
+        }
 
         if (countOcurrences.values().stream().allMatch(x -> x == expectedCount)) {
             return 0;
@@ -75,14 +77,14 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\steady_gene\\input04.txt");
+            return new FileInputStream(".\\src\\problemsolving\\steady_gene\\input04.txt");
         } catch (FileNotFoundException e) {
             return System.in;
         }
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\steady_gene\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\problemsolving\\steady_gene\\output.txt"));
 
         int n = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");

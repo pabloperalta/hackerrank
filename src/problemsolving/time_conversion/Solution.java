@@ -1,10 +1,7 @@
-package time_conversion;
+package problemsolving.time_conversion;
 
 import java.io.*;
-import java.math.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -17,7 +14,7 @@ public class Solution {
             return String.format("%02d" + s.substring(2, s.length() - 2), pmHour % 12);
         } else {
             Integer pmHour = new Integer(s.substring(0, 2));
-            return String.format("%02d" + s.substring(2, s.length() - 2), (pmHour%12) + 12);
+            return String.format("%02d" + s.substring(2, s.length() - 2), (pmHour % 12) + 12);
         }
 
     }
@@ -26,7 +23,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\time_conversion\\input00.txt");
+            return new FileInputStream(".\\src\\problemsolving\\time_conversion\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -34,7 +31,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(".\\src\\time_conversion\\output.txt"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(".\\src\\problemsolving\\time_conversion\\output.txt"));
 
         String s = scan.nextLine();
 

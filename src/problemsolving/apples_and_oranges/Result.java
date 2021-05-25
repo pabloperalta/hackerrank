@@ -1,4 +1,4 @@
-package apples_and_oranges;
+package problemsolving.apples_and_oranges;
 
 import java.util.List;
 

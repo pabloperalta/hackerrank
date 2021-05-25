@@ -1,14 +1,9 @@
-package grading_students;
+package problemsolving.grading_students;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.regex.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -24,7 +19,6 @@ class Result {
 
     public static List<Integer> gradingStudents(List<Integer> grades) {
         List<Integer> result = new ArrayList<>();
-
 
         //Every student receives a grade in the inclusive range from 0 to 100.
         for (Integer grade : grades) {
@@ -45,7 +39,6 @@ class Result {
             }
         }
 
-
         //return an integer array consisting of rounded grades.
         return result;
     }
@@ -54,8 +47,8 @@ class Result {
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\grading_students\\input00.txt")));
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\grading_students\\output.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(".\\src\\problemsolving\\grading_students\\input00.txt")));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\problemsolving\\grading_students\\output.txt"));
 
         int gradesCount = Integer.parseInt(bufferedReader.readLine().trim());
 

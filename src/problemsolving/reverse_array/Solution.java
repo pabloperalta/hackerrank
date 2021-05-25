@@ -1,4 +1,4 @@
-package reverse_array;
+package problemsolving.reverse_array;
 
 public class Solution {
     static int[] reverseArray(int[] a) {
@@ -6,7 +6,7 @@ public class Solution {
 
         int[] reverse = new int[length];
 
-        for(int i = length-1; i >= 0; i--){
+        for (int i = length - 1; i >= 0; i--) {
             reverse[(length - 1) - i] = a[i];
         }
 

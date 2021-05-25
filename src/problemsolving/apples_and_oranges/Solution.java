@@ -1,4 +1,4 @@
-package apples_and_oranges;
+package problemsolving.apples_and_oranges;
 
 import java.io.*;
 import java.util.List;
@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        InputStream inputStream = new FileInputStream("C:\\Users\\Pablo\\projects\\hackerrank\\src\\apples_and_oranges\\input\\input00.txt");
+        InputStream inputStream = new FileInputStream("C:\\Users\\Pablo\\projects\\hackerrank\\src\\problemsolving\\apples_and_oranges\\input\\input00.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
