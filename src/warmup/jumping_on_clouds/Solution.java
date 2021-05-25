@@ -1,12 +1,9 @@
-package jumping_on_clouds;
+package warmup.jumping_on_clouds;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -14,10 +11,10 @@ public class Solution {
     static int jumpingOnClouds(int[] c) {
         int jumps = 0;
 
-        for(int i = 0; i < c.length - 1;){
-            if (i + 2 < c.length && c[i + 2] == 0){
+        for (int i = 0; i < c.length - 1; ) {
+            if (i + 2 < c.length && c[i + 2] == 0) {
                 i = i + 2;
-            }else {
+            } else {
                 i++;
             }
 
@@ -30,7 +27,7 @@ public class Solution {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\e-wallet-tdd\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\warmup\\jumping_on_clouds\\output.txt"));
 
         int n = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");

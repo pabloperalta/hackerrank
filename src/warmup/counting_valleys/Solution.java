@@ -1,12 +1,9 @@
-package counting_valleys;
+package warmup.counting_valleys;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -16,7 +13,7 @@ public class Solution {
         int height = 0;
 
         for (int i = 0; i < n; i++) {
-            switch (s.charAt(i)){
+            switch (s.charAt(i)) {
                 case 'U':
                     height++;
 
@@ -36,7 +33,7 @@ public class Solution {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\Users\\Pablo\\projects\\e-wallet-tdd\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\warmup\\counting_valleys\\output.txt"));
 
         int n = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
