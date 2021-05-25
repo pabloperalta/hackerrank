@@ -1,4 +1,4 @@
-package greedy_florist;
+package greedyalgorithms.greedy_florist;
 
 import java.io.*;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\greedy_florist\\input11.txt");
+            return new FileInputStream(".\\src\\greedyalgorithms\\greedy_florist\\input11.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -37,7 +37,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\greedy_florist\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\greedyalgorithms\\greedy_florist\\output.txt"));
 
         String[] nk = scanner.nextLine().split(" ");
 

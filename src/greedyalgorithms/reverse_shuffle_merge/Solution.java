@@ -1,4 +1,4 @@
-package reverse_shuffle_merge;
+package greedyalgorithms.reverse_shuffle_merge;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +9,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\reverse_shuffle_merge\\input102.txt");
+            return new FileInputStream(".\\src\\greedyalgorithms\\reverse_shuffle_merge\\input102.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -17,7 +17,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\reverse_shuffle_merge\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\greedyalgorithms\\reverse_shuffle_merge\\output.txt"));
 
         String s = scanner.nextLine();
 

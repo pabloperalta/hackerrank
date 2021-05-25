@@ -1,4 +1,4 @@
-package minimun_absolute_difference_in_array;
+package greedyalgorithms.minimun_absolute_difference_in_array;
 
 import java.io.*;
 import java.util.Arrays;
@@ -12,8 +12,8 @@ public class Solution {
         Integer minAbsDiff = Integer.MAX_VALUE;
         Arrays.sort(arr);
 
-        for (int i = 0; i < arr.length -1; i++) {
-            int absDiff = Math.abs(arr[i] - arr[i+1]);
+        for (int i = 0; i < arr.length - 1; i++) {
+            int absDiff = Math.abs(arr[i] - arr[i + 1]);
 
             if (absDiff == 0) {
                 return 0;
@@ -31,7 +31,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\minimun_absolute_difference_in_array\\input01.txt");
+            return new FileInputStream(".\\src\\greedyalgorithms\\minimun_absolute_difference_in_array\\input01.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -39,7 +39,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\minimun_absolute_difference_in_array\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\greedyalgorithms\\minimun_absolute_difference_in_array\\output.txt"));
 
         int n = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");

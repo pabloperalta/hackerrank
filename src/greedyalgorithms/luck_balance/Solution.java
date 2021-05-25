@@ -1,4 +1,4 @@
-package luck_balance;
+package greedyalgorithms.luck_balance;
 
 import java.io.*;
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\luck_balance\\input12.txt");
+            return new FileInputStream(".\\src\\greedyalgorithms\\luck_balance\\input12.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -45,7 +45,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\luck_balance\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\greedyalgorithms\\luck_balance\\output.txt"));
 
         String[] nk = scanner.nextLine().split(" ");
 
