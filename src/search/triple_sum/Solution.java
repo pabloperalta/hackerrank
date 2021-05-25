@@ -1,4 +1,4 @@
-package triple_sum;
+package search.triple_sum;
 
 import java.io.*;
 import java.util.Arrays;
@@ -8,61 +8,34 @@ public class Solution {
 
     // Complete the triplets function below.
     static long triplets(int[] a, int[] b, int[] c) {
-        a = sortAndRemoveDuplicates(a);
-        b = sortAndRemoveDuplicates(b);
-        c = sortAndRemoveDuplicates(c);
+        a = Arrays.stream(a).distinct().toArray();
+        b = Arrays.stream(b).distinct().toArray();
+        c = Arrays.stream(c).distinct().toArray();
 
-        System.out.println("A");
-        System.out.println(Arrays.toString(a));
-        System.out.println();
-        System.out.println("B");
-        System.out.println(Arrays.toString(b));
-        System.out.println();
-        System.out.println("C");
-        System.out.println(Arrays.toString(c));
-        System.out.println();
-
-        int aIndex = 0;
-        int cIndex = 0;
+        int aCount = 0;
+        int cCount = 0;
         long count = 0;
 
         for (int value : b) {
-            while (aIndex < a.length && a[aIndex] <= value) {
-//                System.out.println(a[aIndex]);
-                aIndex++;
+            while (aCount < a.length && a[aCount] <= value) {
+                aCount++;
             }
 
-            while (cIndex < c.length && c[cIndex] <= value) {
-//                System.out.println(c[cIndex]);
-                cIndex++;
+            while (cCount < c.length && c[cCount] <= value) {
+                cCount++;
             }
 
-            count += (long) aIndex * cIndex;
+            count += (long) aCount * cCount;
         }
 
         return count;
-    }
-
-    private static int[] sortAndRemoveDuplicates(int[] a) {
-        Arrays.sort(a);
-
-        int j = 0;//for next element
-        for (int i = 0; i < a.length - 1; i++) {
-            if (a[i] != a[i + 1]) {
-                a[j++] = a[i];
-            }
-        }
-
-        a[j++] = a[a.length - 1];
-
-        return Arrays.copyOf(a, j);
     }
 
     private static final Scanner scanner = new Scanner(getSource());
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\triple_sum\\input04.txt");
+            return new FileInputStream(".\\src\\search\\triple_sum\\input04.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -70,7 +43,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\triple_sum\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\search\\triple_sum\\output.txt"));
 
         String[] lenaLenbLenc = scanner.nextLine().split(" ");
 

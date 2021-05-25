@@ -1,4 +1,4 @@
-package pairs;
+package search.pairs;
 
 import java.io.*;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Solution {
 
-    // Complete the pairs function below.
+    // Complete the search.pairs function below.
     static int pairs(int k, int[] arr) {
         int count = 0;
         Arrays.sort(arr);
@@ -15,16 +15,16 @@ public class Solution {
         while (j < arr.length) {
             int diff = arr[j] - arr[i];
 
-            if(diff == k){
+            if (diff == k) {
                 count++;
                 i++;
-            }else if(diff < k){
+            } else if (diff < k) {
                 j++;
-            }else {
+            } else {
                 i++;
             }
 
-            if(i==j){
+            if (i == j) {
                 j++;
             }
         }
@@ -36,7 +36,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\pairs\\input115.txt");
+            return new FileInputStream(".\\src\\search\\pairs\\input115.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -44,7 +44,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\pairs\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\search\\pairs\\output.txt"));
 
         String[] nk = scanner.nextLine().split(" ");
 

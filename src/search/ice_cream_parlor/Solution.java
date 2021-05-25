@@ -1,4 +1,4 @@
-package ice_cream_parlor;
+package search.ice_cream_parlor;
 
 import java.io.*;
 import java.util.Collections;
@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 class Result {
     // Complete the whatFlavors function below.
     static void whatFlavors(List<Integer> cost, int money) {
-        // I create a list of pairs so I can sort by value without loosing the ID of the cost, previously represented
+        // I create a list of search.pairs so I can sort by value without loosing the ID of the cost, previously represented
         // as the position in the original array.
         List<Pair> costPairs = IntStream.range(0, cost.size())
                 .mapToObj(i -> new Pair(i + 1, cost.get(i)))
@@ -86,7 +86,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\ice_cream_parlor\\input14.txt");
+            return new FileInputStream(".\\src\\search\\ice_cream_parlor\\input14.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;

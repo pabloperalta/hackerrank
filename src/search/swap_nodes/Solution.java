@@ -1,4 +1,4 @@
-package swap_nodes;
+package search.swap_nodes;
 
 import java.io.*;
 import java.util.*;
@@ -190,7 +190,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\swap_nodes\\input02.txt");
+            return new FileInputStream(".\\src\\search\\swap_nodes\\input02.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -198,7 +198,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\swap_nodes\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\search\\swap_nodes\\output.txt"));
 
         int n = Integer.parseInt(scanner.nextLine().trim());
 
