@@ -1,7 +1,7 @@
-package fraudulent_activity_notifications;
+package sorting.fraudulent_activity_notifications;
 
 import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Solution2 {
 
@@ -105,7 +105,6 @@ public class Solution2 {
 
             int currentElementRelativeOffset = countsArray[j];
 
-
             if (offset < position && position <= currentElementRelativeOffset + offset) {
                 return j;
             }
@@ -124,7 +123,7 @@ public class Solution2 {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\fraudulent_activity_notifications\\input05.txt");
+            return new FileInputStream(".\\src\\sorting\\fraudulent_activity_notifications\\input05.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -132,7 +131,7 @@ public class Solution2 {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\fraudulent_activity_notifications\\output2.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\sorting\\fraudulent_activity_notifications\\output2.txt"));
 
         String[] nd = scanner.nextLine().split(" ");
 

@@ -1,12 +1,9 @@
-package count_swaps;
+package sorting.bubble_sort;
 
-import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -39,12 +36,11 @@ public class Solution {
         a[y] = t;
     }
 
-
     private static final Scanner scanner = new Scanner(getSource());
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\count_swaps\\input00.txt");
+            return new FileInputStream(".\\src\\sorting\\bubble_sort\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;

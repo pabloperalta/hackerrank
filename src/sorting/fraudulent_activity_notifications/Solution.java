@@ -1,7 +1,7 @@
-package fraudulent_activity_notifications;
+package sorting.fraudulent_activity_notifications;
 
 import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -15,7 +15,6 @@ public class Solution {
             trail[i] = 0;
         }
 
-
         // Create a count array to store count of individual characters and initialize count array as 0
         int countsArray[] = new int[MAX_EXPENDITURE];
         int additive[] = new int[MAX_EXPENDITURE];
@@ -23,7 +22,6 @@ public class Solution {
             countsArray[i1] = 0;
             additive[i1] = 0;
         }
-
 
         for (int i = 0; i < expenditure.length; i++) {
             int currentExpenditure = expenditure[i];
@@ -87,7 +85,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\fraudulent_activity_notifications\\input00.txt");
+            return new FileInputStream(".\\src\\sorting\\fraudulent_activity_notifications\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -95,7 +93,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\fraudulent_activity_notifications\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\sorting\\fraudulent_activity_notifications\\output.txt"));
 
         String[] nd = scanner.nextLine().split(" ");
 

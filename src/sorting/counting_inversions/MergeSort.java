@@ -1,5 +1,4 @@
-package counting_inversions;
-
+package sorting.counting_inversions;
 
 /* Java program for Merge Sort */
 class MergeSort {

@@ -1,13 +1,7 @@
-package counting_inversions;
+package sorting.counting_inversions;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
-
+import java.util.Scanner;
 
 public class Solution {
     private static long countSwaps = 0;
@@ -107,7 +101,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\counting_inversions\\input00.txt");
+            return new FileInputStream(".\\src\\sorting\\counting_inversions\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -115,7 +109,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\counting_inversions\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\sorting\\counting_inversions\\output.txt"));
 
         int t = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");

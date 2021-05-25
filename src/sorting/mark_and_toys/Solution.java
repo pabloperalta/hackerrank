@@ -1,12 +1,10 @@
-package mark_and_toys;
+package sorting.mark_and_toys;
 
 import java.io.*;
-import java.math.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -40,7 +38,7 @@ public class Solution {
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\mark_and_toys\\input12.txt");
+            return new FileInputStream(".\\src\\sorting\\mark_and_toys\\input12.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
@@ -48,7 +46,7 @@ public class Solution {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\mark_and_toys\\output.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(".\\src\\sorting\\mark_and_toys\\output.txt"));
 
         String[] nk = scanner.nextLine().split(" ");
 

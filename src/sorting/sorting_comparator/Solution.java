@@ -1,9 +1,11 @@
-package sorting_comparator;
+package sorting.sorting_comparator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
 
 class Player {
     String name;
@@ -26,14 +28,13 @@ class Checker implements Comparator<Player> {
     }
 }
 
-
 public class Solution {
 
     private static final Scanner scan = new Scanner(getSource());
 
     private static InputStream getSource() {
         try {
-            return new FileInputStream(".\\src\\sorting_comparator\\input00.txt");
+            return new FileInputStream(".\\src\\sorting\\sorting_comparator\\input00.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return System.in;
